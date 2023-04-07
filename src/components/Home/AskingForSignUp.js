@@ -13,7 +13,7 @@ const AskingForSignUp = () => {
         <p className="mt-3 text-sm  leading-5 text-[#1a2b4b] hidden md:block">
         Looking to take your fitness and wellness journey to the next level? Our fitness and fitness forum website is here to help you do just that.
         Sign up today and start your journey towards a healthier, happier you!</p>
-        <div className="sm:mb-8 mt-3">
+        <div className={`sm:mb-8 mt-3 ${(localStorage.getItem('endurefit-token'))?"hidden":""}`}>
           <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
             <Link
               to="/login"

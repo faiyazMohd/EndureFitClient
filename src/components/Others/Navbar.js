@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import logoWithName from "../../assets/Logo/logowithname.png";
-import { Link} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
+import AlertContext from "../../context/alerts/AlertContext";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -10,12 +13,18 @@ const navigation = [
   { name: "Exercises", href: "/exercises" },
   { name: "Diets", href: "/diets" },
   { name: "Forum", href: "/forum" },
-
 ];
+
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const currentPath = useLocation().pathname;
-  // console.log(`current path is`+currentPath);
+  const alertContext = useContext(AlertContext);
+  const { showAlert } = alertContext;
+  const handleLogoutClick = () => {
+    localStorage.removeItem("endurefit-token");
+    showAlert(true, "Logged Out Successffully");
+  };
+  const pathname = useLocation().pathname;
+  console.log(`current path is` + pathname);
   return (
     <div className="Navbar">
       <header className="">
@@ -57,12 +66,38 @@ const Navbar = () => {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link
-              to="/login"
-              className="hover:font-bold font-semibold leading-6 text-[#2a477f]"
-            >
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+            {localStorage.getItem("endurefit-token") ? (
+              <Link
+                to="/login"
+                className="hover:font-bold font-semibold leading-6 text-[#2a477f]"
+                onClick={handleLogoutClick}
+              >
+                Logout{" "}
+                <span aria-hidden="true">
+                  <LogoutIcon />
+                </span>
+              </Link>
+            ) : pathname === "/login" ? (
+              <Link
+                to="/signup"
+                className="hover:font-bold font-semibold leading-6 text-[#2a477f]"
+              >
+                Signup{" "}
+                <span aria-hidden="true">
+                  <LoginIcon />
+                </span>
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="hover:font-bold font-semibold leading-6 text-[#2a477f]"
+              >
+                Log in{" "}
+                <span aria-hidden="true">
+                  <LoginIcon />
+                </span>
+              </Link>
+            )}
           </div>
         </nav>
         <Dialog
@@ -107,12 +142,44 @@ const Navbar = () => {
                   ))}
                 </div>
                 <div className="py-6">
-                  <Link
+                  {/* <Link
                     to="/login"
                     className="-mx-3 hover:font-bold block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
                   >
                     Log in
-                  </Link>
+                  </Link> */}
+                  {localStorage.getItem("endurefit-token") ? (
+                    <Link
+                      to="/login"
+                      className="-mx-3 hover:font-bold block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
+                      onClick={handleLogoutClick}
+                    >
+                      Logout{" "}
+                      <span aria-hidden="true">
+                        <LogoutIcon />
+                      </span>
+                    </Link>
+                  ) : pathname === "/login" ? (
+                    <Link
+                      to="/signup"
+                      className="-mx-3 hover:font-bold block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
+                    >
+                      Signup{" "}
+                      <span aria-hidden="true">
+                        <LoginIcon />
+                      </span>
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/login"
+                      className="-mx-3 hover:font-bold block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
+                    >
+                      Log in{" "}
+                      <span aria-hidden="true">
+                        <LoginIcon />
+                      </span>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
