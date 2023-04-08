@@ -4,14 +4,22 @@ import Footer from "../Others/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../Others/Alert";
 import AlertContext from "../../context/alerts/AlertContext";
-import EmailValidator from 'email-validator';
+import EmailValidator from "email-validator";
 import jwt_decode from "jwt-decode";
+import UserContext from "../../context/user/userContext";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const SignUp = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [])
+  
   const alertContext = useContext(AlertContext);
   const { showAlert } = alertContext;
+  const  userContext = useContext(UserContext);
+  const {setUserInformation} =  userContext;
   const navigate = useNavigate();
+  const [color, setColor] = useState("#1a2b4b")
   const [signupCred, setSignupCred] = useState({
     name: "",
     email: "",
@@ -40,97 +48,109 @@ const SignUp = () => {
   const handleSignupSubmit = async (event) => {
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
-    if (signupCred.password === signupCred.cpassword) {
-      if (termsaAndCondCheck) {
-        const response = await fetch(`${BASE_URL}/api/auth/createuser`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: signupCred.name,
-            email: signupCred.email,
-            ques: signupCred.ques,
-            ans: signupCred.ans,
-            password: signupCred.password,
-          }),
-        });
-        const json = await response.json();
-        if (json.success) {
-          // Save the auth token and redirect
-          localStorage.setItem("endurefit-token", json.authToken);
-          // localStorage.setItem("userEmail", signupCred.email);
-
-          // setUserEmail(signupCred.email)
-          navigate("/");
-          setSignupCred({
-            name: "",
-            email: "",
-            ques: "What is your favorite color?",
-            ans: "",
-            password: "",
-            cpassword: "",
+    if (
+      signupCred.email.length > 0 ||
+      signupCred.name.length > 0 ||
+      signupCred.ans.length > 0 ||
+      signupCred.password.length > 0 ||
+      signupCred.cpassword.length > 0
+    ) {
+      if (signupCred.password === signupCred.cpassword) {
+        if (termsaAndCondCheck) {
+          const response = await fetch(`${BASE_URL}/api/auth/createuser`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: signupCred.name,
+              email: signupCred.email,
+              ques: signupCred.ques,
+              ans: signupCred.ans,
+              password: signupCred.password,
+            }),
           });
-
+          const json = await response.json();
+          if (json.success) {
+            // Save the auth token and redirect
+            localStorage.setItem("endurefit-token", json.authToken);
+            // localStorage.setItem("userEmail", signupCred.email);
+            setUserInformation()
+            // setUserEmail(signupCred.email)
+            navigate("/");
+            setSignupCred({
+              name: "",
+              email: "",
+              ques: "What is your favorite color?",
+              ans: "",
+              password: "",
+              cpassword: "",
+            });
+          }
+          showAlert(json.success, json.msg);
+        } else {
+          showAlert(
+            false,
+            "Please Agree to the Terms and Conditions to continue"
+          );
         }
-        showAlert(json.success, json.msg);
       } else {
-        showAlert(
-          false,
-          "Please Agree to the Terms and Conditions to continue"
-        );
+        showAlert(false, "Password and Confirm Password does not match");
       }
-    } else {
-      showAlert(false, "Password and Confirm Password does not match");
+    }
+    else{
+      setColor("#b0271a")
+      showAlert(false, "Fill out all the details");
     }
   };
 
-// Addin Login with google 
-const clientID =process.env.REACT_APP_CLIENT_ID;
-const handleCredentialResponse =  async (googleResponse)=> {
-  // console.log("Encoded JWT ID token : " + response.credential);
-  let userObject = jwt_decode(googleResponse.credential);
-  console.log(userObject);
-  // setUserGoogle(userObject); 
-  const response = await fetch(`${BASE_URL}/api/auth/googlesignin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: userObject.name,
-      email: userObject.email
-    }),
-  });
-  const json = await response.json();
-  if (json.success) {
-    // Save the auth token and redirect
-    localStorage.setItem("endurefit-token", json.authToken);
-    localStorage.setItem("userEmail",userObject.name);
-    // setUserEmail(userObject.email)
-    navigate("/");
-  }
-  showAlert(json.success, json.msg);
-}
+  // Addin Login with google
+  const clientID = process.env.REACT_APP_CLIENT_ID;
+  const handleCredentialResponse = async (googleResponse) => {
+    // console.log("Encoded JWT ID token : " + response.credential);
+    let userObject = jwt_decode(googleResponse.credential);
+    // console.log(userObject);
+    // setUserGoogle(userObject);
+    setUserInformation()
+    const response = await fetch(`${BASE_URL}/api/auth/googlesignin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: userObject.name,
+        email: userObject.email,
+      }),
+    });
+    const json = await response.json();
+    if (json.success) {
+      // Save the auth token and redirect
+      localStorage.setItem("endurefit-token", json.authToken);
+      // localStorage.setItem("userEmail",userObject.name);
+      // setUserEmail(userObject.email)
+      navigate("/");
+    }
+    showAlert(json.success, json.msg);
+  };
 
-useEffect(() => {
-  /* global google */
-  google.accounts.id.initialize({
-    client_id: clientID,
-    callback: handleCredentialResponse,
-  });
-  google.accounts.id.renderButton(
-    document.getElementById("signInDiv"),
-    { 
-      'scope': 'profile email',
-        'width': 380,
-        'height': 100,
-        'longtitle': true,
-        'theme': 'dark',
-    }// customization attributes
-  );
-  google.accounts.id.prompt(); // also display the One Tap dialog
-}, );
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: clientID,
+      callback: handleCredentialResponse,
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("signInDiv"),
+      {
+        scope: "profile email",
+        width: 250,
+        height: 80,
+        longtitle: true,
+        theme: "dark",
+      } // customization attributes
+    );
+    google.accounts.id.prompt(); // also display the One Tap dialog
+  },[]);
   return (
     <>
       <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[90vh]">
@@ -160,7 +180,14 @@ useEffect(() => {
                     Name
                   </label>
                 </div>
-                <label htmlFor="name" className={`text-xs -mt-6 text-[#1a2b4b] ${signupCred.name.length < 3 ?"":"hidden"}`}>name must be atlest 3 letters long</label>
+                <label
+                  htmlFor="name"
+                  className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"} ${
+                    signupCred.name.length < 3 ? "" : "hidden"
+                  }`}
+                >
+                  name must be atlest 3 letters long
+                </label>
 
                 <div className="relative h-11 w-full min-w-[200px]">
                   <input
@@ -175,7 +202,14 @@ useEffect(() => {
                     Email
                   </label>
                 </div>
-                <label htmlFor="email" className={`text-xs -mt-6 text-[#1a2b4b] ${EmailValidator.validate(signupCred.email) ?"hidden":""}`}>enter a valid email</label>
+                <label
+                  htmlFor="email"
+                  className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"} ${
+                    EmailValidator.validate(signupCred.email) ? "hidden" : ""
+                  }`}
+                >
+                  enter a valid email
+                </label>
 
                 <div class="relative h-10 min-w-[200px]">
                   <select
@@ -218,8 +252,14 @@ useEffect(() => {
                     Security Question Answer
                   </label>
                 </div>
-                <label htmlFor="ans" className={`text-xs -mt-6 text-[#1a2b4b] ${signupCred.ans.length < 1 ?"":"hidden"}`}>answer cannot be blank</label>
-
+                <label
+                  htmlFor="ans"
+                  className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"} ${
+                    signupCred.ans.length < 1 ? "" : "hidden"
+                  }`}
+                >
+                  answer cannot be blank
+                </label>
 
                 <div className="relative h-11 w-full min-w-[200px]">
                   <input
@@ -234,8 +274,14 @@ useEffect(() => {
                     Password
                   </label>
                 </div>
-                <label htmlFor="password" className={`text-xs -mt-6 text-[#1a2b4b] ${signupCred.password.length < 4 ?"":"hidden"}`}>length for the password must be atleast 4 </label>
-
+                <label
+                  htmlFor="password"
+                  className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"} ${
+                    signupCred.password.length < 4 ? "" : "hidden"
+                  }`}
+                >
+                  length for the password must be atleast 4{" "}
+                </label>
 
                 <div className="relative h-11 w-full min-w-[200px]">
                   <input
@@ -250,7 +296,15 @@ useEffect(() => {
                     Confirm Password
                   </label>
                 </div>
-                <label htmlFor="cpassword" className={`text-xs -mt-6 text-[#1a2b4b] ${signupCred.cpassword === signupCred.password ?"hidden":""}`}>both the passwords must match</label>
+                <label
+                  htmlFor="cpassword"
+                  className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"} ${
+                    signupCred.cpassword === signupCred.password? "hidden" : ""
+                  }`}
+                >
+                  both the passwords must match
+                </label>
+
 
               </div>
 
@@ -315,12 +369,11 @@ useEffect(() => {
                   Login
                 </Link>
               </p>
-            <div className=" mt-2 flex flex-col justify-center items-center">
-              <p>------------OR------------</p>
-              <div id="signInDiv" className="mt-3 mb-4"></div>
-            </div>
+              <div className=" mt-2 flex flex-col justify-center items-center">
+                <p>------------OR------------</p>
+                <div id="signInDiv" className="mt-3 mb-4"></div>
+              </div>
             </form>
-
           </div>
         </div>
         <Footer />

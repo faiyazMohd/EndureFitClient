@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../Others/Navbar";
 import Footer from "../Others/Footer";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,9 +8,13 @@ import EmailValidator from 'email-validator';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const ForgotPassword = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
     const alertContext = useContext(AlertContext);
     const { showAlert } = alertContext;
     const navigate = useNavigate();
+    const [color, setColor] = useState("#1a2b4b")
     const [forgotpasswordCred, setForgotpasswordCred] = useState({
       email: "",
       ques: "What is your favorite color?",
@@ -32,6 +36,12 @@ const ForgotPassword = () => {
         event.preventDefault();
         console.log(forgotpasswordCred);
         window.scrollTo({ top: 0, behavior: "smooth" });
+        if (
+          forgotpasswordCred.email.length > 0 ||
+          forgotpasswordCred.ans.length > 0 ||
+          forgotpasswordCred.newPassword.length > 0 ||
+          forgotpasswordCred.confirmNewPassword.length > 0
+        ) {
         if (forgotpasswordCred.newPassword === forgotpasswordCred.confirmNewPassword) {
           
             const response = await fetch(`${BASE_URL}/api/auth/forgetpass`, {
@@ -63,17 +73,22 @@ const ForgotPassword = () => {
         } else {
           showAlert(false, "Password and Confirm Password does not match");
         }
+      }
+      else{
+        setColor("#b0271a")
+        showAlert(false, "Fill out all the details");
+      }
       };
   return (
     <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[90vh]">
     <Navbar />
     <Alert />
     <div className="Login-Container mb-8 container rounded-3xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] text-[#1a2b4b] mt-4 flex justify-center items-center w-[95%] md:w-[55%] m-auto">
-      <div className="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
+      <div className="relative flex flex-col justify-center items-center rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
         <h4 className="block pt-5 font-sans text-4xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
           Reset Password
         </h4>
-        <p className="mt-4 text-xl block font-sans font-normal leading-relaxed text-gray-700 antialiased">
+        <p className="mt-4 text-lg md:text-xl block font-sans font-normal leading-relaxed text-gray-700 antialiased">
           Enter your details to reset the password.
         </p>
         <form className="mt-5 mb-2 w-80 max-w-screen-lg sm:w-96">
@@ -92,7 +107,7 @@ const ForgotPassword = () => {
                 Email
               </label>
             </div>
-            <label htmlFor="email" className={`text-xs -mt-6 text-[#1a2b4b] ${EmailValidator.validate(forgotpasswordCred.email) ?"hidden":""}`}>enter a valid email</label>
+            <label htmlFor="email" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"} ${EmailValidator.validate(forgotpasswordCred.email) ?"hidden":""}`}>enter a valid email</label>
 
 
 
@@ -137,7 +152,7 @@ const ForgotPassword = () => {
                 Security Question Answer
               </label>
             </div>
-            <label htmlFor="ans" className={`text-xs -mt-6 text-[#1a2b4b] ${forgotpasswordCred.ans.length < 1 ?"":"hidden"}`}>answer cannot be blank</label>
+            <label htmlFor="ans" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"} ${forgotpasswordCred.ans.length < 1 ?"":"hidden"}`}>answer cannot be blank</label>
 
 
             <div className="relative h-11 w-full min-w-[200px]">
@@ -153,7 +168,7 @@ const ForgotPassword = () => {
                 Password
               </label>
             </div>
-            <label htmlFor="password" className={`text-xs -mt-6 text-[#1a2b4b] ${forgotpasswordCred.newPassword.length < 4 ?"":"hidden"}`}>length for the password must be atleast 4 </label>
+            <label htmlFor="password" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"} ${forgotpasswordCred.newPassword.length < 4 ?"":"hidden"}`}>length for the password must be atleast 4 </label>
 
 
             <div className="relative h-11 w-full min-w-[200px]">
@@ -169,7 +184,7 @@ const ForgotPassword = () => {
                 Confirm Password
               </label>
             </div>
-            <label htmlFor="cpassword" className={`text-xs -mt-6 text-[#1a2b4b] ${forgotpasswordCred.confirmNewPassword === forgotpasswordCred.newPassword ?"hidden":""}`}>both the passwords must match</label>
+            <label htmlFor="cpassword" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"} ${forgotpasswordCred.confirmNewPassword === forgotpasswordCred.newPassword ?"hidden":""}`}>both the passwords must match</label>
 
 
           </div>

@@ -1,17 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../Others/Navbar";
 import Footer from "../Others/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Alert from "../Others/Alert";
 import AlertContext from "../../context/alerts/AlertContext";
 import EmailValidator from "email-validator";
 import jwt_decode from "jwt-decode";
-
+import UserContext from "../../context/user/userContext";
+import LoaderContext from "../../context/loader/LoaderContext";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Login = () => {
+  // const pathname = useLocation().pathname;
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+  const loaderContext = useContext(LoaderContext);
+  const { setLoadingProgress } = loaderContext;
   const alertContext = useContext(AlertContext);
   const { showAlert } = alertContext;
+  const userContext = useContext(UserContext);
+  const { setUserInformation } = userContext;
+  const [color, setColor] = useState("#1a2b4b");
   const navigate = useNavigate();
   const [loginCred, setLoginCred] = useState({
     email: "",
@@ -23,27 +33,36 @@ const Login = () => {
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
-    const response = await fetch(`${BASE_URL}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: loginCred.email,
-        password: loginCred.password,
-      }),
-    });
-    const json = await response.json();
-    if (json.success) {
-      // Save the auth token and redirect
-      localStorage.setItem("endurefit-token", json.authToken);
-      navigate("/");
-      setLoginCred({
-        email: "",
-        password: "",
+    if (loginCred.email.length > 0 || loginCred.password > 0) {
+      setLoadingProgress(20);
+      const response = await fetch(`${BASE_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: loginCred.email,
+          password: loginCred.password,
+        }),
       });
+      setLoadingProgress(50);
+      const json = await response.json();
+      setLoadingProgress(100);
+      if (json.success) {
+        // Save the auth token and redirect
+        localStorage.setItem("endurefit-token", json.authToken);
+        setUserInformation();
+        navigate("/");
+        setLoginCred({
+          email: "",
+          password: "",
+        });
+      }
+      showAlert(json.success, json.msg);
+    } else {
+      setColor("#b0271a");
+      showAlert(false, "Fill out all the details");
     }
-    showAlert(json.success, json.msg);
   };
 
   // Addin Login with google
@@ -51,7 +70,7 @@ const Login = () => {
   const handleCredentialResponse = async (googleResponse) => {
     // console.log("Encoded JWT ID token : " + response.credential);
     let userObject = jwt_decode(googleResponse.credential);
-    console.log(userObject);
+    // console.log(userObject);
     // setUserGoogle(userObject);
     const response = await fetch(`${BASE_URL}/api/auth/googlesignin`, {
       method: "POST",
@@ -67,8 +86,7 @@ const Login = () => {
     if (json.success) {
       // Save the auth token and redirect
       localStorage.setItem("endurefit-token", json.authToken);
-      localStorage.setItem("userEmail", userObject.name);
-      // setUserEmail(userObject.email)
+      setUserInformation();
       navigate("/");
     }
     showAlert(json.success, json.msg);
@@ -84,14 +102,14 @@ const Login = () => {
       document.getElementById("signInDiv"),
       {
         scope: "profile email",
-        width: 380,
-        height: 150,
+        width: 250,
+        height: 80,
         longtitle: true,
         theme: "dark",
       } // customization attributes
     );
     google.accounts.id.prompt(); // also display the One Tap dialog
-  });
+  }, []);
   return (
     <>
       <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[90vh]">
@@ -122,7 +140,9 @@ const Login = () => {
                 </div>
                 <label
                   htmlFor="email"
-                  className={`text-xs -mt-6 text-[#1a2b4b] ${
+                  className={`text-xs -mt-6 ${
+                    color === "#1a2b4b" ? "text-[#1a2b4b]" : "text-red-600"
+                  } ${
                     EmailValidator.validate(loginCred.email) ? "hidden" : ""
                   }`}
                 >
@@ -144,9 +164,9 @@ const Login = () => {
                 </div>
                 <label
                   htmlFor="password"
-                  className={`text-xs -mt-6 text-[#1a2b4b] ${
-                    loginCred.password.length < 4 ? "" : "hidden"
-                  }`}
+                  className={`text-xs -mt-6 ${
+                    color === "#1a2b4b" ? "text-[#1a2b4b]" : "text-red-600"
+                  } ${loginCred.password.length < 4 ? "" : "hidden"}`}
                 >
                   length for the password must be atleast 4{" "}
                 </label>
@@ -218,7 +238,7 @@ const Login = () => {
               </div>
               <div className=" mt-2 flex flex-col justify-center items-center">
                 <p>------------OR------------</p>
-                  <div id="signInDiv" className="mt-3 mb-4"></div>
+                <div id="signInDiv" className="mt-3 mb-4"></div>
               </div>
             </form>
           </div>

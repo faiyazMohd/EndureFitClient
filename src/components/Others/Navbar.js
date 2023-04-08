@@ -24,7 +24,7 @@ const Navbar = () => {
     showAlert(true, "Logged Out Successffully");
   };
   const pathname = useLocation().pathname;
-  console.log(`current path is` + pathname);
+  // console.log(`current path is` + pathname);
   return (
     <div className="Navbar">
       <header className="">
@@ -59,7 +59,7 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="hover:font-bold  font-semibold leading-6 text-[#2a477f]"
+                className={`hover:font-bold  font-semibold leading-6 text-[#2a477f] ${pathname===item.href?"border-b-2 border-blue-900":""} rounded-b-md `}
               >
                 {item.name}
               </Link>
