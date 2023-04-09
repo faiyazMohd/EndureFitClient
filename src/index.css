@@ -3,3 +3,21 @@
 @tailwind utilities;
 
 
+
+.react-horizontal-scrolling-menu--wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.exercise-card {
+  transform: scale(1, 1);
+  transition: 0.3s all ease-in-out;
+}
+
+
+.exercise-card:hover {
+  transform: scale(1.1, 1.1);
+}
+

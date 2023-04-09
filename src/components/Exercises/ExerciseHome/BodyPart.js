@@ -1,6 +1,7 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
-import Icon from "../../assets/getfit-Icons/gym.png";
+import Icon from "../../../assets/getfit-Icons/gym.png";
+
 const BodyPart = ({ item, bodyPart, setBodyPart }) => {
   return (
     <Stack
@@ -39,6 +40,7 @@ const BodyPart = ({ item, bodyPart, setBodyPart }) => {
         {item}
       </Typography>
     </Stack>
+    // <Categories />
   );
 };
 

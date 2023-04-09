@@ -12,6 +12,8 @@ import ForgotPassword from "./components/Auths/ForgotPassword";
 import UserState from "./context/user/UserState";
 import LoadingBar from "react-top-loading-bar";
 import LoaderContext from "./context/loader/LoaderContext";
+import ExerciseDetails from "./pages/ExerciseDetails";
+
 const App = () => {
   const loaderContext = useContext(LoaderContext);
   const { progress } = loaderContext;
@@ -25,6 +27,7 @@ const App = () => {
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/about" element={<About />} />
                 <Route exact path="/exercises" element={<ExercisesPage />} />
+                <Route exact path="/exercisedetails/:id" element={<ExerciseDetails />} />
                 <Route exact path="/diets" element={<Diets />} />
                 <Route exact path="/forum" element={<Forum />} />
                 <Route exact path="/signUp" element={<SignUp />} />

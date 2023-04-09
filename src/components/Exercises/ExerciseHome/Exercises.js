@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Pagination, Typography, Box, Stack } from "@mui/material";
-import { fetchData, exerciseOptions } from "../utils/fetchData";
+import { fetchData, exerciseOptions } from "../../../utils/fetchData";
 import ExerciseCard from "./ExerciseCard";
-const Exercises = ({ bodyPart,setExercises, exercises }) => {
+import Loader from "../../Others/Loader";
+
+const Exercises = ({ bodyPart,setExercises, exercises,searchFor}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const exercisesPerPage = 12;
   const indexOfLastExercise = currentPage * exercisesPerPage;
@@ -13,7 +15,7 @@ const Exercises = ({ bodyPart,setExercises, exercises }) => {
   );
   const paginate = (e, value) => {
     setCurrentPage(value);
-    window.scrollTo({ top: 1880, behavior: "smooth" });
+    window.scrollTo({ top: 2300, behavior: "smooth" });
   };
   useEffect(() => {
     const fetchExercisesData = async () => {
@@ -35,21 +37,19 @@ const Exercises = ({ bodyPart,setExercises, exercises }) => {
   }, [bodyPart]);
 
   return (
-    <Box id="exercises" sx={{ mt: { lg: "110px" } }} mt="50px" p="20px">
-      <Typography variant="h3" mb="45px">
-        Showing Results
-      </Typography>
-      <Stack
-        direction="row"
-        sx={{ gap: { lg: "110px", xs: "50px", md: "90px" } }}
-        flexWrap="wrap"
-        justifyContent="center"
+    <div id="exercises" className=" w-[100%] md:w-[80%] flex justify-center items-center flex-col m-auto" >
+      <h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
+          Showing Results of {searchFor===""?bodyPart==="all"?"all the exercises":bodyPart+" exercises": searchFor+" exercises"}
+      </h1>
+      {currentExercises.length?"":<Loader/>}
+      
+      <div className="mt-20 flex flex-col m-auto flex-wrap justify-center items-center  gap-20 md:grid  md:grid-cols-2 xl:grid-cols-3  2xl:grid-cols-4 "
       >
-        {currentExercises.map((exercise, index) => (
+        { currentExercises.map((exercise, index) => (
           <ExerciseCard key={index} exercise={exercise} />
         ))}
-      </Stack>
-      <Stack mt="100px" alignItems="center">
+      </div>
+      <div  className="flex items-center mt-28 justify-center ">
         {exercises.length > exercisesPerPage && (
           <Pagination
             color="standard"
@@ -61,8 +61,8 @@ const Exercises = ({ bodyPart,setExercises, exercises }) => {
             size="large"
           />
         )}
-      </Stack>
-    </Box>
+      </div>
+    </div>
   );
 };
 

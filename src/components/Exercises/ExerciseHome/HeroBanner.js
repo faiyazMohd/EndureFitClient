@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import bgPng from "../../assets/png images/pngImg3.png"
+import bgPng from "../../../assets/png images/pngImg3.png"
 const HeroBanner = () => {
   return (
       <div className="bg mx-auto flex-col justify-center ">
@@ -26,10 +26,10 @@ const HeroBanner = () => {
             </p>
             <div className=" sm:mb-8 sm:flex sm:justify-center mt-5 w-36 m-auto">
               <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                <Link to="/about" className="font-bold text-[#2a477f] hover:font-extrabold">
+                <a href="#exploreExercises" className="font-bold text-[#2a477f] hover:font-extrabold">
                   <span className="absolute inset-0" aria-hidden="true" />
                   Explore Exercises
-                </Link>
+                </a>
               </div>
             </div>
           </div>

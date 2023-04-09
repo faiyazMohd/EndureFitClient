@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Box, Stack, Typography, Button, TextField } from "@mui/material";
-import { exerciseOptions, fetchData } from "../utils/fetchData";
+import { exerciseOptions, fetchData } from "../../../utils/fetchData";
 import HorizontalScrollbar from "./HorizontalScrollbar";
+import Categories from "./Categories";
 
-const SearchExercises = ({ bodyPart, setBodyPart, setExercises }) => {
+const SearchExercises = ({ bodyPart, setBodyPart, setExercises,setSearchFor }) => {
   const [search, setSearch] = useState("");
   const [bodyParts, setBodyParts] = useState([]);
-  useEffect(() => {
-    const fetchExerciseData = async () => {
-      const bodyPartsData = await fetchData(
-        "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
-        exerciseOptions
-      );
-      setBodyParts(["all", ...bodyPartsData]);
-      console.log(bodyPartsData);
-    };
-    fetchExerciseData();
-  }, []);
+  const [equipmentExercises, setEquipmentExercises] = useState([])
+
 
   const handleSearch = async () => {
     if (search) {
@@ -31,13 +23,15 @@ const SearchExercises = ({ bodyPart, setBodyPart, setExercises }) => {
           exercise.bodyPart.toLowerCase().includes(search) ||
           exercise.equipment.toLowerCase().includes(search)
       );
+      setSearchFor(search)
       setSearch("");
       setExercises(searchedExercises);
+      
     }
   };
   return (
     <>
-      <div className=" flex flex-col justify-center items-center mt-7">
+      <div id="exploreExercises" className=" flex flex-col justify-center items-center mt-7">
       <h1 className="text-[#1a2b4b] text-center mt-16 font-bold text-4xl sm:text-4xl lg:text-4xl mb-14 tracking-wide ">
           Explore by Body Parts
         </h1>
@@ -49,6 +43,12 @@ const SearchExercises = ({ bodyPart, setBodyPart, setExercises }) => {
             isBodyParts
           />
         </Box>
+      <Categories
+       data={bodyParts}
+       bodyPart={bodyPart}
+       setBodyPart={setBodyPart}
+       isBodyParts
+      />
         <h1 className="text-[#1a2b4b] text-center mt-24 font-bold text-4xl sm:text-4xl lg:text-5xl mb-14 tracking-wide ">
           Search For the Exercise
         </h1>
