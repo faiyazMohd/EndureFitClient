@@ -23,6 +23,7 @@ const UserState = (props) => {
             });
           }
     }
+
   return (
     <UserContext.Provider value={{user, setUserInformation}}>
       {props.children}

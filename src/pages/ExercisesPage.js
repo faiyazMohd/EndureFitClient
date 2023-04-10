@@ -4,11 +4,14 @@ import Alert from "../components/Others/Alert";
 import HeroBanner from "../components/Exercises/ExerciseHome/HeroBanner";
 import SearchExercises from "../components/Exercises/ExerciseHome/SearchExercises";
 import Exercises from "../components/Exercises/ExerciseHome/Exercises";
+import Footer from "../components/Others/Footer";
 
 const ExercisesPage = () => {
   const [bodyPart, setBodyPart] = useState("all");
   const [exercises, setExercises] = useState([]);
-  const [searchFor, setSearchFor] = useState("")
+  const [searchFor, setSearchFor] = useState("");
+  const [load, setLoad] = useState(false);
+  const [showing, setShowing] = useState("");
   return (
     <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[100vh]">
       <Navbar />
@@ -19,6 +22,8 @@ const ExercisesPage = () => {
         bodyPart={bodyPart}
         setBodyPart={setBodyPart}
         setSearchFor={setSearchFor}
+        setLoad={setLoad}
+        setShowing={setShowing}
       />
 
       <Exercises
@@ -26,9 +31,12 @@ const ExercisesPage = () => {
         bodyPart={bodyPart}
         setExercises={setExercises}
         searchFor={searchFor}
+        load={load}
+        setShowing={setShowing}
+        showing={showing}
       />
+      <Footer />
     </div>
-    
   );
 };
 

@@ -74,10 +74,9 @@ const SignUp = () => {
           if (json.success) {
             // Save the auth token and redirect
             localStorage.setItem("endurefit-token", json.authToken);
-            // localStorage.setItem("userEmail", signupCred.email);
             setUserInformation()
-            // setUserEmail(signupCred.email)
-            navigate("/");
+
+            navigate("/createprofile");
             setSignupCred({
               name: "",
               email: "",
@@ -111,7 +110,6 @@ const SignUp = () => {
     let userObject = jwt_decode(googleResponse.credential);
     // console.log(userObject);
     // setUserGoogle(userObject);
-    setUserInformation()
     const response = await fetch(`${BASE_URL}/api/auth/googlesignin`, {
       method: "POST",
       headers: {
@@ -126,9 +124,14 @@ const SignUp = () => {
     if (json.success) {
       // Save the auth token and redirect
       localStorage.setItem("endurefit-token", json.authToken);
-      // localStorage.setItem("userEmail",userObject.name);
-      // setUserEmail(userObject.email)
-      navigate("/");
+      setUserInformation()
+      if (json.msg==="User Logged In Successfully") {
+        navigate("/");
+        
+      }
+      else if(json.msg==="User Created Successfully"){
+        navigate("/createprofile");
+      }
     }
     showAlert(json.success, json.msg);
   };

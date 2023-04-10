@@ -122,7 +122,7 @@ const bodyParts = [
   },
 ];
 
-export default function Categories({ setBodyPart}) {
+export default function Categories({ setBodyPart,setShowing}) {
     // console.log(images.url);
   return (
     <Container component="section" sx={{ mt: 0, mb: 4 }}>
@@ -136,6 +136,7 @@ export default function Categories({ setBodyPart}) {
             }}
             onClick={() => {
                 setBodyPart(bodyPart.title);
+                setShowing("search");
               }}
               href="#exercises"
           >

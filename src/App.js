@@ -13,34 +13,43 @@ import UserState from "./context/user/UserState";
 import LoadingBar from "react-top-loading-bar";
 import LoaderContext from "./context/loader/LoaderContext";
 import ExerciseDetails from "./pages/ExerciseDetails";
-
+import UserDetails from "./pages/UserDetails";
 const App = () => {
   const loaderContext = useContext(LoaderContext);
   const { progress } = loaderContext;
   return (
     <UserState>
-        <AlertState>
-          <BrowserRouter>
-            <LoadingBar color="#374151" progress={progress} />
-            <Routes>
-              <Route>
-                <Route exact path="/" element={<Home />} />
-                <Route exact path="/about" element={<About />} />
-                <Route exact path="/exercises" element={<ExercisesPage />} />
-                <Route exact path="/exercisedetails/:id" element={<ExerciseDetails />} />
-                <Route exact path="/diets" element={<Diets />} />
-                <Route exact path="/forum" element={<Forum />} />
-                <Route exact path="/signUp" element={<SignUp />} />
-                <Route exact path="/login" element={<Login />} />
-                <Route
-                  exact
-                  path="/forgotpassword"
-                  element={<ForgotPassword />}
-                />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </AlertState>
+      <AlertState>
+        <BrowserRouter>
+          <LoadingBar color="#374151" progress={progress} />
+          <Routes>
+            <Route>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/about" element={<About />} />
+              <Route exact path="/exercises" element={<ExercisesPage />} />
+              <Route
+                exact
+                path="/exercisedetails/:id"
+                element={<ExerciseDetails />}
+              />
+              <Route exact path="/diets" element={<Diets />} />
+              <Route exact path="/forum" element={<Forum />} />
+              <Route exact path="/signUp" element={<SignUp />} />
+              <Route exact path="/login" element={<Login />} />
+              <Route
+                exact
+                path="/forgotpassword"
+                element={<ForgotPassword />}
+              />
+              <Route
+                exact
+                path="/createprofile"
+                element={<UserDetails />}
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AlertState>
     </UserState>
   );
 };

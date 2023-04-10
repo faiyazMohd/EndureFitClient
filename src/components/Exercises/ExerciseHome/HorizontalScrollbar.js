@@ -15,7 +15,7 @@ const LeftArrow = () => {
   const { scrollPrev } = useContext(VisibilityContext);
 
   return (
-    <Typography onClick={() => scrollPrev()} className="right-arrow hidden sm:block absolute hover:cursor-pointer w-24 z-50 top-[100%]">
+    <Typography onClick={() => scrollPrev()} className="right-arrow hidden sm:block absolute hover:cursor-pointer w-20 z-50 top-[100%]  sm:left-[35%] md:left-[40%]  lg:left-[40%] xl:left-[40%]">
       <img src={LeftArrowIcon} alt="right-arrow" />
     </Typography>
   );
@@ -25,7 +25,7 @@ const RightArrow = () => {
   const { scrollNext } = useContext(VisibilityContext);
 
   return (
-    <Typography onClick={() => scrollNext()} className="left-arrow hidden sm:block absolute hover:cursor-pointer w-24 z-50 top-[100%] sm:left-[88%] md:left-[90%] xl:left-[93%] lg:left-[95%]"> 
+    <Typography onClick={() => scrollNext()} className="left-arrow hidden sm:block absolute hover:cursor-pointer w-20 z-50 top-[100%] sm:left-[55%] md:left-[55%]  lg:left-[55%] xl:left-[55%]"> 
       <img src={RightArrowIcon} alt="right-arrow" />
     </Typography>
   );

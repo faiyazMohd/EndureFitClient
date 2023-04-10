@@ -3,12 +3,12 @@ import React from "react";
 import HorizontalScrollbar from "../ExerciseHome/HorizontalScrollbar";
 import Loader from "../../Others/Loader";
 const SimilarExercises = ({ equipmentExercises, targetMuscleExercises }) => {
-    console.log(equipmentExercises);
-    console.log(targetMuscleExercises);
+    // console.log(equipmentExercises);
+    // console.log(targetMuscleExercises);
   return (
-    <Box sx={{ mt: { lg: "100px", md: "70px", xs: "0" } }}>
-      <Typography variant="h3" mb={5}>
-        Exercise that target the same muscle group
+    <div className="mt-32 ">
+      <Typography variant="h3" mb={5} textAlign={"center"}>
+        Exercises that target the same muscle group
       </Typography>
       <Stack
         direction="row"
@@ -16,13 +16,15 @@ const SimilarExercises = ({ equipmentExercises, targetMuscleExercises }) => {
           p: "2",
           position: "relative",
         }}
+        // overflow={"hidden"}
+        
       >
         {targetMuscleExercises.length? (
           <HorizontalScrollbar data={targetMuscleExercises} />
         ):<Loader/>}
       </Stack>
-      <Typography variant="h3" mb={5} mt={10}>
-        Exercise that target the same Equipment
+      <Typography variant="h3" mb={8} mt={15} textAlign={"center"}>
+        Exercises that target the same Equipment
       </Typography>
       <Stack
         direction="row"
@@ -31,12 +33,13 @@ const SimilarExercises = ({ equipmentExercises, targetMuscleExercises }) => {
           position: "relative",
           width:"100%"
         }}
+        // overflow={"hidden"}
       >
         {equipmentExercises.length? (
           <HorizontalScrollbar data={equipmentExercises} />
         ):<Loader/>}
       </Stack>
-    </Box>
+    </div>
   );
 };
 

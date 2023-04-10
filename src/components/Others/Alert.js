@@ -17,7 +17,7 @@ export default function Alert() {
     <div className="">
         {alert && (
 
-        <div className={`ml-4 ${pathname==="/login"|| pathname==="/signup" || pathname==="/forgotpassword"  ? "":"absolute"}  rounded-[1rem] m-auto w-[90%] sm:w-[70%] md:w-[37%] ${alert.type==="error"?"shadow-[2px_7px_16px_3px_#f56565]":"shadow-[2px_7px_16px_3px_#68d391]"}`}>
+        <div className={`ml-4 ${pathname==="/login"|| pathname==="/createprofile"|| pathname==="/signup" || pathname==="/forgotpassword"  ? "":"absolute"}  rounded-[1rem] m-auto w-[90%] sm:w-[70%] md:w-[37%] ${alert.type==="error"?"shadow-[2px_7px_16px_3px_#f56565]":"shadow-[2px_7px_16px_3px_#68d391]"}`}>
         {alert && 
         (
         

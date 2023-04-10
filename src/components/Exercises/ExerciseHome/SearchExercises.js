@@ -4,7 +4,7 @@ import { exerciseOptions, fetchData } from "../../../utils/fetchData";
 import HorizontalScrollbar from "./HorizontalScrollbar";
 import Categories from "./Categories";
 
-const SearchExercises = ({ bodyPart, setBodyPart, setExercises,setSearchFor }) => {
+const SearchExercises = ({ bodyPart, setBodyPart, setExercises,setSearchFor,setLoad,setShowing }) => {
   const [search, setSearch] = useState("");
   const [bodyParts, setBodyParts] = useState([]);
   const [equipmentExercises, setEquipmentExercises] = useState([])
@@ -12,6 +12,7 @@ const SearchExercises = ({ bodyPart, setBodyPart, setExercises,setSearchFor }) =
 
   const handleSearch = async () => {
     if (search) {
+      setLoad(true)
       const exerciseData = await fetchData(
         "https://exercisedb.p.rapidapi.com/exercises",
         exerciseOptions
@@ -24,7 +25,9 @@ const SearchExercises = ({ bodyPart, setBodyPart, setExercises,setSearchFor }) =
           exercise.equipment.toLowerCase().includes(search)
       );
       setSearchFor(search)
+      setShowing("search")
       setSearch("");
+      setLoad(false)
       setExercises(searchedExercises);
       
     }
@@ -35,19 +38,21 @@ const SearchExercises = ({ bodyPart, setBodyPart, setExercises,setSearchFor }) =
       <h1 className="text-[#1a2b4b] text-center mt-16 font-bold text-4xl sm:text-4xl lg:text-4xl mb-14 tracking-wide ">
           Explore by Body Parts
         </h1>
-        <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
+        {/* <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
         <HorizontalScrollbar
             data={bodyParts}
             bodyPart={bodyPart}
             setBodyPart={setBodyPart}
             isBodyParts
           />
-        </Box>
+        </Box> */}
       <Categories
        data={bodyParts}
        bodyPart={bodyPart}
        setBodyPart={setBodyPart}
        isBodyParts
+       setShowing={setShowing}
+
       />
         <h1 className="text-[#1a2b4b] text-center mt-24 font-bold text-4xl sm:text-4xl lg:text-5xl mb-14 tracking-wide ">
           Search For the Exercise

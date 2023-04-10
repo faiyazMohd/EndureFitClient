@@ -5,26 +5,35 @@ import Detail from "../components/Exercises/ExerciseDetails/Detail";
 import ExerciseVideos from "../components/Exercises/ExerciseDetails/ExerciseVideos";
 import SimilarExercises from "../components/Exercises/ExerciseDetails/SimilarExercises";
 import { fetchData, exerciseOptions, youtubeOptions } from "../utils/fetchData";
+import Navbar from "../components/Others/Navbar";
+import Footer from "../components/Others/Footer"
 
 const ExerciseDetails = () => {
   const [exerciseDetail, setExerciseDetail] = useState({});
   const [exerciseVideos, setExerciseVideos] = useState([]);
   const [targetMuscleExercises, setTargetMuscleExercises] = useState([]);
   const [equipmentExercises, setEquipmentExercises] = useState([]);
+  const [exerciseLoading, setExerciseLoading] = useState(false);
+  const [exerciseVideosLoading, setExerciseVideosLoading] = useState(false);
   const { id } = useParams();
   useEffect(() => {
     const fetchExercisesData = async () => {
       const exerciseDbUrl = "https://exercisedb.p.rapidapi.com";
       const youtubeSearchUrl =
         "https://youtube-search-and-download.p.rapidapi.com";
+      setExerciseLoading(true);
       const exerciseDetailData = await fetchData(
         `${exerciseDbUrl}/exercises/exercise/${id}`,
         exerciseOptions
       );
+      setExerciseLoading(false);
+
+      setExerciseVideosLoading(true)
       const exerciseVideosData = await fetchData(
         `${youtubeSearchUrl}/search?query=${exerciseDetailData.name}`,
         youtubeOptions
       );
+      setExerciseVideosLoading(false)
       const targetMuscleExercisesData = await fetchData(
         `${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`,
         exerciseOptions
@@ -42,14 +51,20 @@ const ExerciseDetails = () => {
   }, [id]);
 
   return (
-    <Box>
-      <Detail exerciseDetail={exerciseDetail} />
+    <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[100vh]">
+      <Navbar />
+      <Detail exerciseDetail={exerciseDetail} exerciseLoading={exerciseLoading}/>
       <ExerciseVideos
         exerciseVideos={exerciseVideos}
         name={exerciseDetail.name}
+        exerciseVideosLoading={exerciseVideosLoading}
       />
-      <SimilarExercises equipmentExercises={equipmentExercises} targetMuscleExercises={targetMuscleExercises} />
-    </Box>
+      <SimilarExercises
+        equipmentExercises={equipmentExercises}
+        targetMuscleExercises={targetMuscleExercises}
+      />
+      <Footer/>
+    </div>
   );
 };
 

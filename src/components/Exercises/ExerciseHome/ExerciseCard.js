@@ -60,6 +60,18 @@ const ExerciseCard = ({ exercise }) => {
         {exercise.name}
       </Typography> */}
           <div className="mt-4 flex justify-center items-center mb-6">
+          {/* <Button
+            sx={{
+              ml: "21px",
+              color: "black",
+              backgroundColor: "rgb(59 130 246 / var(--tw-bg-opacity))",
+              fontSize: "16px",
+              borderRadius: "20px",
+              textTransform: "capitalize",
+            },{":hover":{backgroundColor:"background-color: rgb(96 165 250 / var(--tw-bg-opacity))"}}}
+          >
+          {exercise.bodyPart}
+          </Button> */}
           <button
             className="middle none center capitalize  rounded-3xl bg-blue-500 hover:bg-blue-400 hover:text-black py-3 px-3 font-sans text-xs font-bold  text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             data-ripple-light="true"

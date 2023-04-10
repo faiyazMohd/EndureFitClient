@@ -87,7 +87,13 @@ const Login = () => {
       // Save the auth token and redirect
       localStorage.setItem("endurefit-token", json.authToken);
       setUserInformation();
-      navigate("/");
+      if (json.msg==="User Logged In Successfully") {
+        navigate("/");
+        
+      }
+      else if(json.msg==="User Created Successfully"){
+        navigate("/createprofile");
+      }
     }
     showAlert(json.success, json.msg);
   };
