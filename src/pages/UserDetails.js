@@ -8,13 +8,13 @@ import UserContext from "../context/user/userContext";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const SignUp = () => {
-//   useEffect(() => {
-//     window.scrollTo({ top: 0, behavior: "smooth" });
-//   }, []);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 const alertContext = useContext(AlertContext);
 const { showAlert } = alertContext;
 const  userContext = useContext(UserContext);
-const {user} =  userContext;
+const {user,setUserProfileInfo} =  userContext;
 const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({
     age: 0,
@@ -38,10 +38,10 @@ const navigate = useNavigate();
       [event.target.name]: event.target.selectedOptions[0].value,
     });
   };
-  useEffect(() => {
-    console.log(userDetails);
+  // useEffect(() => {
+  //   console.log(userDetails);
   
-  }, [userDetails])
+  // }, [userDetails])
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,7 +50,6 @@ const navigate = useNavigate();
       userDetails.dietType.length > 0 ||
       userDetails.gender.length > 0 
     ) {
-        console.log("user name is "+user.name);
         const authToken = localStorage.getItem("endurefit-token") ;
           const response = await fetch(`${BASE_URL}/api/userDetails/storedetails`, {
             method: "POST",
@@ -60,13 +59,13 @@ const navigate = useNavigate();
 
             },
             body: JSON.stringify({
-                "userName":"Faiyaz Mohd",
+                "userName":user.name,
                 "userDetails":userDetails
             }),
           });
           const json = await response.json();
           if (json.success) {
-
+            setUserProfileInfo();
             navigate("/");
             setUserDetails({
                 age: 0,

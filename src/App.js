@@ -14,42 +14,45 @@ import LoadingBar from "react-top-loading-bar";
 import LoaderContext from "./context/loader/LoaderContext";
 import ExerciseDetails from "./pages/ExerciseDetails";
 import UserDetails from "./pages/UserDetails";
+import Profile from "./pages/Profile";
+import Bookmarks from "./pages/Bookmarks";
+import FitnessState from "./context/fitness/FitnessState";
 const App = () => {
   const loaderContext = useContext(LoaderContext);
   const { progress } = loaderContext;
   return (
     <UserState>
-      <AlertState>
-        <BrowserRouter>
-          <LoadingBar color="#374151" progress={progress} />
-          <Routes>
-            <Route>
-              <Route exact path="/" element={<Home />} />
-              <Route exact path="/about" element={<About />} />
-              <Route exact path="/exercises" element={<ExercisesPage />} />
-              <Route
-                exact
-                path="/exercisedetails/:id"
-                element={<ExerciseDetails />}
-              />
-              <Route exact path="/diets" element={<Diets />} />
-              <Route exact path="/forum" element={<Forum />} />
-              <Route exact path="/signUp" element={<SignUp />} />
-              <Route exact path="/login" element={<Login />} />
-              <Route
-                exact
-                path="/forgotpassword"
-                element={<ForgotPassword />}
-              />
-              <Route
-                exact
-                path="/createprofile"
-                element={<UserDetails />}
-              />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </AlertState>
+      <FitnessState>
+        <AlertState>
+          <BrowserRouter>
+            <LoadingBar color="#374151" progress={progress} />
+            <Routes>
+              <Route>
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/about" element={<About />} />
+                <Route exact path="/exercises" element={<ExercisesPage />} />
+                <Route
+                  exact
+                  path="/exercisedetails/:id"
+                  element={<ExerciseDetails />}
+                />
+                <Route exact path="/diets" element={<Diets />} />
+                <Route exact path="/forum" element={<Forum />} />
+                <Route exact path="/signUp" element={<SignUp />} />
+                <Route exact path="/login" element={<Login />} />
+                <Route
+                  exact
+                  path="/forgotpassword"
+                  element={<ForgotPassword />}
+                />
+                <Route exact path="/createprofile" element={<UserDetails />} />
+                <Route exact path="/profile" element={<Profile />} />
+                <Route exact path="/bookmarks" element={<Bookmarks />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AlertState>
+      </FitnessState>
     </UserState>
   );
 };

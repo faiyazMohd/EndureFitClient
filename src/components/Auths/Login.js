@@ -79,6 +79,7 @@ const Login = () => {
       },
       body: JSON.stringify({
         name: userObject.name,
+        picture: userObject.picture,
         email: userObject.email,
       }),
     });

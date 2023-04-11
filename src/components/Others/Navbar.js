@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import AlertContext from "../../context/alerts/AlertContext";
+import AccountMenu from "./AccountMenu";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -19,14 +20,14 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const alertContext = useContext(AlertContext);
   const { showAlert } = alertContext;
-  const handleLogoutClick = () => {
-    localStorage.removeItem("endurefit-token");
-    showAlert(true, "Logged Out Successffully");
-  };
+  // const handleLogoutClick = () => {
+  //   localStorage.removeItem("endurefit-token");
+  //   showAlert(true, "Logged Out Successffully");
+  // };
   const pathname = useLocation().pathname;
   // console.log(`current path is` + pathname);
   return (
-    <div className="Navbar">
+    <div className="Navbar -mt-2">
       <header className="">
         <nav
           className="flex items-center justify-between p-6 lg:px-8"
@@ -67,16 +68,17 @@ const Navbar = () => {
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {localStorage.getItem("endurefit-token") ? (
-              <Link
-                to="/login"
-                className="hover:font-bold font-semibold leading-6 text-[#2a477f]"
-                onClick={handleLogoutClick}
-              >
-                Logout{" "}
-                <span aria-hidden="true">
-                  <LogoutIcon />
-                </span>
-              </Link>
+              // <Link
+              //   to="/login"
+              //   className="hover:font-bold font-semibold leading-6 text-[#2a477f]"
+              //   onClick={handleLogoutClick}
+              // >
+              //   Logout{" "}
+              //   <span aria-hidden="true">
+              //     <LogoutIcon />
+              //   </span>
+              // </Link>
+              <AccountMenu/>
             ) : pathname === "/login" ? (
               <Link
                 to="/signup"
@@ -130,18 +132,7 @@ const Navbar = () => {
             </div>
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className="hover:font-bold -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-                <div className="py-6">
+              <div className="py-6">
                   {/* <Link
                     to="/login"
                     className="-mx-3 hover:font-bold block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
@@ -149,16 +140,7 @@ const Navbar = () => {
                     Log in
                   </Link> */}
                   {localStorage.getItem("endurefit-token") ? (
-                    <Link
-                      to="/login"
-                      className="-mx-3 hover:font-bold block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
-                      onClick={handleLogoutClick}
-                    >
-                      Logout{" "}
-                      <span aria-hidden="true">
-                        <LogoutIcon />
-                      </span>
-                    </Link>
+                    <AccountMenu/>
                   ) : pathname === "/login" ? (
                     <Link
                       to="/signup"
@@ -181,6 +163,18 @@ const Navbar = () => {
                     </Link>
                   )}
                 </div>
+                <div className="space-y-2 py-6">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="hover:font-bold -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+                
               </div>
             </div>
           </Dialog.Panel>

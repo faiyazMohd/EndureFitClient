@@ -117,6 +117,7 @@ const SignUp = () => {
       },
       body: JSON.stringify({
         name: userObject.name,
+        picture: userObject.picture,
         email: userObject.email,
       }),
     });
