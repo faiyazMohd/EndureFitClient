@@ -15,7 +15,6 @@ const ExercisesPage = () => {
   return (
     <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[100vh]">
       <Navbar />
-      <Alert />
       <HeroBanner />
       <SearchExercises
         setExercises={setExercises}
@@ -25,6 +24,9 @@ const ExercisesPage = () => {
         setLoad={setLoad}
         setShowing={setShowing}
       />
+      <div className="mt-5 mb-5">
+        <Alert />
+      </div>
 
       <Exercises
         exercises={exercises}

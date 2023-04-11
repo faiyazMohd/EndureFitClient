@@ -10,7 +10,8 @@ const SearchExercises = ({ bodyPart, setBodyPart, setExercises,setSearchFor,setL
   const [equipmentExercises, setEquipmentExercises] = useState([])
 
 
-  const handleSearch = async () => {
+  const handleSearch = async (event) => {
+    event.preventDefault();
     if (search) {
       setLoad(true)
       const exerciseData = await fetchData(
@@ -58,7 +59,7 @@ const SearchExercises = ({ bodyPart, setBodyPart, setExercises,setSearchFor,setL
           Search For the Exercise
         </h1>
 
-        <form class="flex items-center md:w-[36%] ">
+        <form class="flex items-center md:w-[36%]" onSubmit={handleSearch}>
           <label for="simple-search" class="sr-only">
             Search
           </label>

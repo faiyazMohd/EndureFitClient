@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Pagination, Typography, Box, Stack } from "@mui/material";
 import { fetchData, exerciseOptions } from "../../../utils/fetchData";
 import ExerciseCard from "./ExerciseCard";
 import Loader from "../../Others/Loader";
+import ExeBookmarksContext from "../../../context/ExerciseBookmarks/ExeBookmarksContext";
+import { useNavigate } from "react-router-dom";
 
 const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShowing,showing}) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +16,18 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShow
     indexOfFirstExercise,
     indexOfLastExercise
   );
-  console.log("exercise is " + exercises);
+  const exeBookmarksContext = useContext(ExeBookmarksContext);
+  const {fetchAllExeBookMarks,exerciseBookmarks } = exeBookmarksContext;
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("endurefit-token") ) {
+    fetchAllExeBookMarks();
+    }
+  // eslint-disable-next-line
+
+  }, [])
+  
+  // console.log("exercise is " + exercises);
   const paginate = (e, value) => {
     setCurrentPage(value);
     window.scrollTo({ top: 2300, behavior: "smooth" });
@@ -34,6 +47,7 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShow
           exerciseOptions
         );
       }
+      // console.log(exercisesData);
       setShowing("bodyPart")
       setExercises(exercisesData);
       setBodyPartLoad(false)

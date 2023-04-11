@@ -6,7 +6,7 @@ const SimilarExercises = ({ equipmentExercises, targetMuscleExercises }) => {
     // console.log(equipmentExercises);
     // console.log(targetMuscleExercises);
   return (
-    <div className="mt-32 ">
+    <div className="mt-32 mb-24">
       <Typography variant="h3" mb={5} textAlign={"center"}>
         Exercises that target the same muscle group
       </Typography>
