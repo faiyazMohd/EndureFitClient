@@ -5,7 +5,7 @@ import SignUp from "./components/Auths/SignUp";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import ExercisesPage from "./pages/ExercisesPage";
-import Diets from "./pages/Diets";
+import DietsPage from "./pages/DietsPage";
 import Forum from "./pages/Forum";
 import AlertState from "./context/alerts/AlertState";
 import ForgotPassword from "./components/Auths/ForgotPassword";
@@ -18,6 +18,7 @@ import Profile from "./pages/Profile";
 import Bookmarks from "./pages/Bookmarks";
 import FitnessState from "./context/fitness/FitnessState";
 import ExeBookmarksState from "./context/ExerciseBookmarks/ExeBookmarksState";
+import DietDetails from "./pages/DietDetails";
 
 const App = () => {
   const loaderContext = useContext(LoaderContext);
@@ -39,7 +40,12 @@ const App = () => {
                     path="/exercisedetails/:id"
                     element={<ExerciseDetails />}
                   />
-                  <Route exact path="/diets" element={<Diets />} />
+                  <Route exact path="/diets" element={<DietsPage />} />
+                  <Route
+                    exact
+                    path="/dietdetails/:id"
+                    element={<ExerciseDetails />}
+                  />
                   <Route exact path="/forum" element={<Forum />} />
                   <Route exact path="/signUp" element={<SignUp />} />
                   <Route exact path="/login" element={<Login />} />

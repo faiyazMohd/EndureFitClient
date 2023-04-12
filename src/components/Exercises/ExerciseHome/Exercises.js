@@ -62,7 +62,7 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShow
     >
       {Object.keys(exercises).length === 0 ? (
         <h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
-          No Results Found for {searchFor}
+          {searchFor===0?(<>"No Results Found for "{searchFor}</>):"Searching for the results"}
         </h1>
       ) : (
         <>

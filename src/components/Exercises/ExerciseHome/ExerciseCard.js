@@ -53,7 +53,6 @@ const ExerciseCard = ({ exercise }) => {
               className="w-auto rounded-lg "
               src={exercise.gifUrl}
               alt={exercise.name} 
-              loading="lazy"
             />
           </Link>
         </div>

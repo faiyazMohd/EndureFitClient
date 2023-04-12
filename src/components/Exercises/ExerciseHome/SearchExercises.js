@@ -39,14 +39,6 @@ const SearchExercises = ({ bodyPart, setBodyPart, setExercises,setSearchFor,setL
       <h1 className="text-[#1a2b4b] text-center mt-16 font-bold text-4xl sm:text-4xl lg:text-4xl mb-14 tracking-wide ">
           Explore by Body Parts
         </h1>
-        {/* <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
-        <HorizontalScrollbar
-            data={bodyParts}
-            bodyPart={bodyPart}
-            setBodyPart={setBodyPart}
-            isBodyParts
-          />
-        </Box> */}
       <Categories
        data={bodyParts}
        bodyPart={bodyPart}
