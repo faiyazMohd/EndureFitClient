@@ -24,7 +24,6 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShow
     fetchAllExeBookMarks();
     }
   // eslint-disable-next-line
-
   }, [])
   
   // console.log("exercise is " + exercises);

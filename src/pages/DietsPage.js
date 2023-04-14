@@ -8,15 +8,15 @@ import SearchDiets from '../components/Diets/DietsHome/SearchDiets';
 import Diets from '../components/Diets/DietsHome/Diets';
 
 const DietsPage = () => {
-  const [queryFor, setQueryFor] = useState("");
+  const [queryFor, setQueryFor] = useState("all");
   const [searchFor, setSearchFor] = useState({});
-  
+  const [inputSearch, setInputSearch] = useState(false)
   return (
     <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[100vh]">
       <Navbar />
       <DietsBanner/>
-      <SearchDiets setQueryFor={setQueryFor}  setSearchFor={setSearchFor}/>
-      <Diets queryFor={queryFor} searchFor={searchFor} />
+      <SearchDiets setQueryFor={setQueryFor} setSearchFor={setSearchFor}/>
+      <Diets queryFor={queryFor} searchFor={searchFor} inputSearch={inputSearch} setInputSearch={setInputSearch} />
       <Footer />
     </div>
   )

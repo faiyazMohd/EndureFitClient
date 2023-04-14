@@ -2,31 +2,30 @@ import React, { useState } from "react";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import { Link } from "react-router-dom";
-// const jwt = require("jsonwebtoken");
-// import jwt from "jsonwebtoken"
-// const JWT_SECRET = process.env.JWT_KEY;
+import LocalFireDepartmentSharpIcon from "@mui/icons-material/LocalFireDepartmentSharp";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 const DietCard = ({ diet }) => {
   const [bookmark, setBookmark] = useState(false);
-  // console.log(diet.images.REGULAR);
-//   const data = {
-//     diet: {
-//       url: diet._links.self.href,
-//     },
-//   };
-//   const dietToken = jwt.sign(data, JWT_SECRET);
+
+// console.log(diet.recipe.ingredients.length);
+//logic to extract recipe id 
+let recipeId = (diet._links.self.href);
+console.log(recipeId);
+recipeId = recipeId.substr(38,32)
   return (
     <div
       className="exercise-card flex m-auto justify-center items-center"
-      style={{ width: "360px" }}
+      style={{ width: "340px" }}
     >
       <div className="shadow-card flex flex-col shadow-[0px_9px_20px_13px_#90cdf4] rounded-xl bg-white bg-clip-border justify-center items-center">
-        <div className="hover:-m-[0.5rem] hover:shadow-[0px_12px_22px_2px_#3182ce] rounded-lg">
+        <div className="hover:-m-[0.5rem] hover:shadow-[0px_12px_22px_2px_#3182ce] rounded-lg w-full">
           <Link
-            to={`/dietdetails/${diet._links.self.href}`}
+            to={`/dietdetails/${diet._links.self.href.substr(38,32)}`}
             blur-shadow-image="true"
+            className="w-full"
           >
             <img
-              className="w-auto rounded-lg "
+              className="w-[25rem] h-[20rem] rounded-t-lg"
               src={
                 diet.recipe.images.REGULAR.url
                   ? diet.recipe.images.REGULAR.url
@@ -36,15 +35,23 @@ const DietCard = ({ diet }) => {
             />
           </Link>
         </div>
+
         <div className=" capitalize mt-4 ">
-          {/* <Link to={`/exercisedetails/${exercise.id}`} className=""> */}
+          <Link to={`/dietdetails/${diet._links.self.href.substr(38,32)}`} className="">
           <p className="text-2xl text-center font-semibold">
             {diet.recipe.label}
           </p>
-          <p className="text-md text-center">
-            calories : {Math.floor(diet.recipe.calories)}
+          <p className="text-md text-center mt-3">
+            <LocalFireDepartmentSharpIcon
+                    sx={{ color: "red", marginBottom: "0.4rem" }}
+                  /> : {Math.floor(diet.recipe.calories)}{" "}kcal
           </p>
-          {/* </Link> */}
+          <p className="text-md text-center">
+            <ShoppingBasketIcon
+                      sx={{ color: "blue", marginBottom: "0.4rem",marginLeft: "0.2rem" }}
+                    /> : {diet.recipe.ingredients.length}
+          </p>
+          </Link>
         </div>
         <div className="mt-4 flex justify-center items-center mb-6">
           {localStorage.getItem("endurefit-token") ? (

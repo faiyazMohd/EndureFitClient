@@ -33,6 +33,7 @@ const ExerciseDetails = () => {
         `${youtubeSearchUrl}/search?query=${exerciseDetailData.name}`,
         youtubeOptions
       );
+      console.log(exerciseVideosData);
       setExerciseVideosLoading(false)
       const targetMuscleExercisesData = await fetchData(
         `${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`,
