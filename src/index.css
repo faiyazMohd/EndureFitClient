@@ -20,6 +20,9 @@
 .exercise-card:hover {
   transform: scale(1.1, 1.1);
 }
+.dietImg:hover {
+  transform: scale(1.05);
+}
 
 
 .exercise-video {

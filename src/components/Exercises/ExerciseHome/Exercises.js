@@ -26,7 +26,6 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShow
   // eslint-disable-next-line
   }, [])
   
-  // console.log("exercise is " + exercises);
   const paginate = (e, value) => {
     setCurrentPage(value);
     window.scrollTo({ top: 2300, behavior: "smooth" });

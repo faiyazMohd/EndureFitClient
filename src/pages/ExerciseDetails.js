@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Detail from "../components/Exercises/ExerciseDetails/Detail";
@@ -9,6 +8,9 @@ import Navbar from "../components/Others/Navbar";
 import Footer from "../components/Others/Footer"
 
 const ExerciseDetails = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const [exerciseDetail, setExerciseDetail] = useState({});
   const [exerciseVideos, setExerciseVideos] = useState([]);
   const [targetMuscleExercises, setTargetMuscleExercises] = useState([]);

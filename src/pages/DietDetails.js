@@ -6,6 +6,7 @@ import Navbar from "../components/Others/Navbar";
 import Footer from "../components/Others/Footer";
 import DietVideos from "../components/Diets/DietDetails/DietVideos";
 import Nutrition from "../components/Diets/DietDetails/Nutrition";
+import Details from "../components/Diets/DietDetails/Details";
 
 const apiKey = process.env.REACT_APP_RAPID_API_KEY_Diets;
 const apiId = process.env.REACT_APP_RAPID_API_ID;
@@ -15,10 +16,14 @@ const DietDetails = () => {
   const [dietVideos, setDietVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [videosLoading, setVideosLoading] = useState(false);
+  
   const { id } = useParams();
   const url = `https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=${apiId}&app_key=${apiKey}`;
   const youtubeSearchUrl = "https://youtube-search-and-download.p.rapidapi.com";
-  // console.log(url);
+  console.log(url);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   useEffect(() => {
     const fetchDietData = async ()=>{
       setLoading(true);
@@ -43,7 +48,8 @@ const DietDetails = () => {
   return( <>
 <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[100vh]">
       <Navbar />
-      <Nutrition diet={dietDetails} />
+      <Details diet={dietDetails} />
+    
       <DietVideos
         dietVideos={dietVideos}
         name={dietDetails.label}

@@ -8,7 +8,7 @@ import SearchDiets from '../components/Diets/DietsHome/SearchDiets';
 import Diets from '../components/Diets/DietsHome/Diets';
 
 const DietsPage = () => {
-  const [queryFor, setQueryFor] = useState("all");
+  const [queryFor, setQueryFor] = useState("organic");
   const [searchFor, setSearchFor] = useState({});
   const [inputSearch, setInputSearch] = useState(false)
   return (
