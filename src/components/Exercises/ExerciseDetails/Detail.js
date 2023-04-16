@@ -1,5 +1,5 @@
-import { Button, Stack, Typography } from "@mui/material";
-import React from "react";
+import {  Button, Stack, Typography } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
 import BodyPartImage from "../../../assets/icons/bodyPart2.jpeg";
 import TargetImage from "../../../assets/icons/target2.jpeg";
 // import TargetImage from "../../../assets/icons/target.png";
@@ -7,8 +7,8 @@ import EquipmentImage from "../../../assets/icons/gym-machine(2).png";
 import Loader from "../../Others/Loader";
 
 const Detail = ({ exerciseDetail,exerciseLoading }) => {
-  const { bodyPart, gifUrl, name, target, equipment } = exerciseDetail;
-  console.log(exerciseDetail);
+  const { bodyPart, gifUrl, name, target, equipment,id } = exerciseDetail;
+  // console.log(exerciseDetail);
   const extraDetail = [
     {
       icon: BodyPartImage,
@@ -58,6 +58,7 @@ const Detail = ({ exerciseDetail,exerciseLoading }) => {
             </h6>
           </div>
         ))}
+        
       </div>
     </div>
   );

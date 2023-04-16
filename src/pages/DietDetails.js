@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchData, youtubeOptions } from "../utils/fetchData";
 import ExerciseVideos from "../components/Exercises/ExerciseDetails/ExerciseVideos";
@@ -7,6 +7,7 @@ import Footer from "../components/Others/Footer";
 import DietVideos from "../components/Diets/DietDetails/DietVideos";
 import Nutrition from "../components/Diets/DietDetails/Nutrition";
 import Details from "../components/Diets/DietDetails/Details";
+import Alert from "../components/Others/Alert";
 
 const apiKey = process.env.REACT_APP_RAPID_API_KEY_Diets;
 const apiId = process.env.REACT_APP_RAPID_API_ID;
@@ -24,6 +25,7 @@ const DietDetails = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+  
   useEffect(() => {
     const fetchDietData = async ()=>{
       setLoading(true);
@@ -48,6 +50,7 @@ const DietDetails = () => {
   return( <>
 <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[100vh]">
       <Navbar />
+      
       <Details diet={dietDetails} />
     
       <DietVideos

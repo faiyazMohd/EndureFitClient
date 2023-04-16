@@ -1,18 +1,18 @@
 import React, { useContext, useState } from "react";
-import ExeBookmarksContext from "./ExeBookmarksContext";
+import DietBookmarkContext from "./DietBookmarkContext";
 import AlertContext from "../alerts/AlertContext";
 
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const ExeBookmarksState = (props) => {
-    const [exerciseBookmarks, setExerciseBookmarks] = useState([])
+const DietBookmarkState = (props) => {
+    const [dietsBookmarks, setDietsBookmarks] = useState([])
     const alertContext = useContext(AlertContext);
     const { showAlert } = alertContext;
 
-    const fetchAllExeBookMarks = async ()=>{
+    const fetchAllDietBookMarks = async ()=>{
         const authToken = localStorage.getItem("endurefit-token") ;
-        const response = await fetch(`${BASE_URL}/api/userDetails/getexercisebookmark`, {
+        const response = await fetch(`${BASE_URL}/api/userDetails/getrecipebookmark`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -20,15 +20,14 @@ const ExeBookmarksState = (props) => {
             }
           });
           const json = await response.json();
-        //   console.log(json.bookmarks);
           if (json.success) {
-            setExerciseBookmarks(json.bookmarks);
+            setDietsBookmarks(json.bookmarks);
           }
     }
 
-    const addExerciseBookmark = async (bookmarkDetail)=>{
+    const addDietBookmark = async (bookmarkDetail)=>{
         const authToken = localStorage.getItem("endurefit-token") ;
-        const response = await fetch(`${BASE_URL}/api/userDetails/addexercisebookmark`, {
+        const response = await fetch(`${BASE_URL}/api/userDetails/addrecipebookmark`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -39,14 +38,17 @@ const ExeBookmarksState = (props) => {
             }),
           });
           const json = await response.json();
+          // console.log(json);
           if (json.success) {
-            fetchAllExeBookMarks();
+            fetchAllDietBookMarks();
           }
           return json;
     }
-    const deleteExerciseBookmark = async (bookmarkId)=>{
+
+
+    const deleteDietBookmark = async (bookmarkId)=>{
         const authToken = localStorage.getItem("endurefit-token") ;
-        const response = await fetch(`${BASE_URL}/api/userDetails/deleteexercisebookmark/${bookmarkId}`, {
+        const response = await fetch(`${BASE_URL}/api/userDetails/deleterecipebookmark/${bookmarkId}`, {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",
@@ -54,19 +56,19 @@ const ExeBookmarksState = (props) => {
             }
           });
           const json = await response.json();
-          console.log(json);
+          // console.log(json);
           if (json.success) {
-            fetchAllExeBookMarks();
+            fetchAllDietBookMarks();
           }
           return json;
     }
 
 
   return (
-    <ExeBookmarksContext.Provider value={{exerciseBookmarks,addExerciseBookmark,fetchAllExeBookMarks,deleteExerciseBookmark}}>
+    <DietBookmarkContext.Provider value={{dietsBookmarks,fetchAllDietBookMarks,addDietBookmark,deleteDietBookmark}}>
       {props.children}
-    </ExeBookmarksContext.Provider>
+    </DietBookmarkContext.Provider>
   );
 };
 
-export default ExeBookmarksState;
+export default DietBookmarkState;

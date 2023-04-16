@@ -14,12 +14,17 @@ const ExerciseCard = ({ exercise }) => {
   const {exerciseBookmarks, addExerciseBookmark,fetchAllExeBookMarks,deleteExerciseBookmark } = exeBookmarksContext;
   const userContext = useContext(UserContext);
   const { user} = userContext;
+  const alertContext = useContext(AlertContext);
+    const { showAlert } = alertContext;
   // console.log(exercise);
 
   useEffect(() => {
     if (localStorage.getItem("endurefit-token") ) {
       // console.log(exerciseBookmarks);
         exerciseBookmarks.forEach((element,index )=> {
+          //   console.log("id is "+element.bookmarkDetail);
+          //  console.log(exerciseBookmarks);
+
           if (user.userId===element.userId) {
             if (element.bookmarkDetail.id === exercise.id) {
               setBookmark(true)
@@ -31,16 +36,20 @@ const ExerciseCard = ({ exercise }) => {
     }
   }, [exerciseBookmarks])
   
-  const handleBookmark = ()=>{
+  const handleBookmark = async ()=>{
         if (!bookmark) {
-          addExerciseBookmark(exercise)
-          setBookmark(true);
+          const json = await addExerciseBookmark(exercise);
+          if (json.success) {
+            setBookmark(true);
+            showAlert(json.success, json.msg);
+          }
         }
         else{
-          // console.log("deleteExerciseBookmark is "+deleteExerciseBookmark );
-          // console.log("addExerciseBookmark is "+addExerciseBookmark );
-          deleteExerciseBookmark(bookmarkId);
-          setBookmark(false)
+          const json = await deleteExerciseBookmark(bookmarkId);
+          if (json.success) {
+            setBookmark(false)
+            showAlert(json.success, json.msg);
+          }
         }
   }
   return (

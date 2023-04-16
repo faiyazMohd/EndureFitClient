@@ -6,7 +6,7 @@ import Loader from "../../Others/Loader";
 import ExeBookmarksContext from "../../../context/ExerciseBookmarks/ExeBookmarksContext";
 import { useNavigate } from "react-router-dom";
 
-const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShowing,showing}) => {
+const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setLoad,setShowing,showing}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [bodyPartLoad, setBodyPartLoad] = useState(false)
   const exercisesPerPage = 12;
@@ -34,6 +34,7 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShow
     const fetchExercisesData = async () => {
       let exercisesData = [];
       setBodyPartLoad(true)
+      setLoad(true)
       if (bodyPart === "all") {
         exercisesData = await fetchData(
           "https://exercisedb.p.rapidapi.com/exercises",
@@ -49,6 +50,7 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShow
       setShowing("bodyPart")
       setExercises(exercisesData);
       setBodyPartLoad(false)
+      setLoad(false)
     };
     fetchExercisesData();
   }, [bodyPart]);
@@ -58,25 +60,30 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setShow
       id="exercises"
       className=" w-[100%] md:w-[80%] flex justify-center items-center flex-col m-auto"
     >
-      {Object.keys(exercises).length === 0 ? (
-        <h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
-          {searchFor===0?(<>"No Results Found for "{searchFor}</>):"Searching for the results"}
-        </h1>
-      ) : (
-        <>
-         {showing==="search"?
+      {load?<h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
+          "Searching for the results"
+        </h1>:
+        Object.keys(exercises).length === 0 ? (
           <h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
-            Showing Results of{" "}
-            {searchFor === "" ? "" : searchFor + " exercises"}
-          </h1>:
-          <h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
-            Showing Results of{" "}
-            {bodyPart === "all"
-              ? "all the exercises"
-              : bodyPart + " exercises"}
-          </h1>}
-        </>
-      )}
+            {searchFor!==0 ?(<>"No Results Found for "{searchFor}</>):"Searching for the results"}
+          </h1>
+        ) : (
+          <>
+           {showing==="search"?
+            <h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
+              Showing Results of{" "}
+              {searchFor === "" ? "" : searchFor + " exercises"}
+            </h1>:
+            <h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
+              Showing Results of{" "}
+              {bodyPart === "all"
+                ? "all the exercises"
+                : bodyPart + " exercises"}
+            </h1>}
+          </>
+        )
+        }
+      {}
       {/* <h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
         {bodyPart === "all"
           ? "all the exercises"

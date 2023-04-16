@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import Loader from "../../Others/Loader";
 const ExerciseVideos = ({ exerciseVideos, name ,exerciseVideosLoading}) => {
-  console.log("exerciseVideosLoading is "+ exerciseVideosLoading);
+  // console.log("exerciseVideosLoading is "+ exerciseVideosLoading);
   return (
     <div className="text-center w-[80%] m-auto mt-24 flex-col justify-center items-center">
       <h4 className="text-[#1a2b4b] text-3xl mb-8" color="#1a2b4b">

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DietCard from "./DietCard";
 import DietLoader from "../../Others/DietLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
+import DietBookmarkContext from "../../../context/DietBookmarks/DietBookmarkContext";
 
 const apiKey = process.env.REACT_APP_RAPID_API_KEY_Diets;
 const apiId = process.env.REACT_APP_RAPID_API_ID;
@@ -14,6 +15,7 @@ const Diets = ({ searchFor, queryFor, inputSearch, setInputSearch }) => {
   });
   const [loading, setLoading] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(false);
+
   const fetchQueryData = async () => {
     setInputSearch(false);
     setQueryResult({
@@ -28,11 +30,6 @@ const Diets = ({ searchFor, queryFor, inputSearch, setInputSearch }) => {
     // console.log("data is  "+data);
     let parsedData = await data.json();
     setLoading(false);
-
-    // console.log(parsedData);
-    // console.log(parsedData.count);
-    // console.log(parsedData._links.next.href);
-    // console.log("parsedData hits is "+parsedData);
 
     setQueryResult({
       results: parsedData.hits,
@@ -122,6 +119,15 @@ const Diets = ({ searchFor, queryFor, inputSearch, setInputSearch }) => {
     });
   };
 
+  const dietBookmarkContext = useContext(DietBookmarkContext);
+  const {fetchAllDietBookMarks } = dietBookmarkContext;
+  useEffect(() => {
+    if (localStorage.getItem("endurefit-token") ) {
+      fetchAllDietBookMarks();
+    }
+  // eslint-disable-next-line
+  }, [])
+  
   useEffect(() => {
     fetchQueryData();
     if (queryFor.length === 0) {

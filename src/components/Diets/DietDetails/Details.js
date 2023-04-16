@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Nutrition from "./Nutrition";
-import { Button, Stack, Typography } from "@mui/material";
-
+import { Button} from "@mui/material";
+import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
+import LocalDiningIcon from "@mui/icons-material/LocalDining"; 
+import KebabDiningIcon from "@mui/icons-material/KebabDining";
+import RamenDiningIcon from "@mui/icons-material/RamenDining"; 
+import EggAltIcon from "@mui/icons-material/EggAlt";
+import DangerousIcon from '@mui/icons-material/Dangerous';
 const Details = ({ diet }) => {
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -59,10 +64,16 @@ const Details = ({ diet }) => {
               ? diet.cuisineType.length === 0
                 ? ""
                 :  <div className="">
-                <h3 className="text-2xl font-bold mt-4">Cuisines :</h3>
+                <h3 className="text-2xl font-bold mt-4">Cuisines{" "}<KebabDiningIcon
+                          sx={{
+                            color: "brown",
+                            marginBottom: "0.4rem",
+                            marginLeft: "0.1rem",
+                          }}
+                        />  </h3>
                 {diet.cuisineType.map((cuisineType, index) => {
                         return (
-                          <p key={index} className="text-xl capitalize mx-2 font-medium ">{cuisineType}</p>
+                          <p key={index} className="text-xl capitalize mx-2 font-medium ">{cuisineType} </p>
                         );
                       })}
                 </div>
@@ -73,7 +84,14 @@ const Details = ({ diet }) => {
               ? diet.dietLabels.length === 0
                 ? ""
                 : <div className="">
-                <h3 className="text-2xl font-bold mt-4">Diets :</h3>
+                <h3 className="text-2xl font-bold mt-4">Diets{" "}
+                      <EggAltIcon
+                        sx={{
+                          color: "#caaa2c",
+                          marginBottom: "0.4rem",
+                          marginLeft: "0.1rem",
+                        }}
+                      /></h3>
                 {diet.dietLabels.map((dietLabel, index) => {
                         return (
                           <Button
@@ -100,7 +118,14 @@ const Details = ({ diet }) => {
               ? diet.cautions.length === 0
                 ? ""
                 : <div className="">
-                <h3 className="text-2xl font-bold mt-4">Cautions :</h3>
+                <h3 className="text-2xl font-bold mt-4">Cautions {" "}
+                      <DangerousIcon
+                        sx={{
+                          color: "#d80000",
+                          marginBottom: "0.4rem",
+                          marginLeft: "0rem",
+                        }}
+                      /></h3>
                 {diet.cautions.map((cautions, index) => {
                         return (
                           <Button
@@ -127,7 +152,14 @@ const Details = ({ diet }) => {
               ? diet.mealType.length === 0
                 ? ""
                 : <div className="">
-                <h3 className="text-2xl font-bold mt-4">Meal Type :</h3>
+                <h3 className="text-2xl font-bold mt-4">Meal Type {" "}
+                      <LocalDiningIcon
+                        sx={{
+                          color: "#223a59b5",
+                          marginBottom: "0.4rem",
+                          marginLeft: "0rem",
+                        }}
+                      /></h3>
                 {diet.mealType.map((mealType, index) => {
                         return (
                           <p className="text-xl capitalize mx-2 font-medium ">{mealType}</p>
@@ -139,7 +171,14 @@ const Details = ({ diet }) => {
               ? diet.dishType.length === 0
                 ? ""
                 : <div className="">
-                <h3 className="text-2xl font-bold mt-4 mb-1">Dish Type :</h3>
+                <h3 className="text-2xl font-bold mt-4 mb-1">Dish Type {" "}
+                      <RamenDiningIcon
+                        sx={{
+                          color: "#2c8513",
+                          marginBottom: "0.4rem",
+                          marginLeft: "0.2rem",
+                        }}
+                      /></h3>
                 {diet.dishType.map((dishType, index) => {
                         return (
                           <Button
@@ -165,7 +204,14 @@ const Details = ({ diet }) => {
               ? diet.healthLabels.length === 0
                 ? ""
                 : <div className="">
-                <h3 className="text-2xl font-bold mt-4">Health :</h3>
+                <h3 className="text-2xl font-bold mt-4">Health {" "}
+                      <HealthAndSafetyIcon
+                        sx={{
+                          color: "#e20303",
+                          marginBottom: "0.4rem",
+                          marginLeft: "0rem",
+                        }}
+                      /></h3>
                 {diet.healthLabels.map((healthLabels, index) => {
                         return (
                           <Button

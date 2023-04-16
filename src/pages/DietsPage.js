@@ -16,6 +16,10 @@ const DietsPage = () => {
       <Navbar />
       <DietsBanner/>
       <SearchDiets setQueryFor={setQueryFor} setSearchFor={setSearchFor}/>
+      <div className="my-8">
+      <Alert/>
+
+      </div>
       <Diets queryFor={queryFor} searchFor={searchFor} inputSearch={inputSearch} setInputSearch={setInputSearch} />
       <Footer />
     </div>

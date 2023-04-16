@@ -34,6 +34,7 @@ const ExercisesPage = () => {
         setExercises={setExercises}
         searchFor={searchFor}
         load={load}
+        setLoad={setLoad}
         setShowing={setShowing}
         showing={showing}
       />

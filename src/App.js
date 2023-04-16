@@ -19,6 +19,7 @@ import Bookmarks from "./pages/Bookmarks";
 import FitnessState from "./context/fitness/FitnessState";
 import ExeBookmarksState from "./context/ExerciseBookmarks/ExeBookmarksState";
 import DietDetails from "./pages/DietDetails";
+import DietBookmarkState from "./context/DietBookmarks/DietBookmarkState";
 
 const App = () => {
   const loaderContext = useContext(LoaderContext);
@@ -27,6 +28,7 @@ const App = () => {
     <AlertState>
       <UserState>
         <ExeBookmarksState>
+          <DietBookmarkState>
           <FitnessState>
             <BrowserRouter>
               <LoadingBar color="#374151" progress={progress} />
@@ -65,6 +67,7 @@ const App = () => {
               </Routes>
             </BrowserRouter>
           </FitnessState>
+          </DietBookmarkState>
         </ExeBookmarksState>
       </UserState>
     </AlertState>

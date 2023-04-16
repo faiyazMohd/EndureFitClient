@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import Detail from "../components/Exercises/ExerciseDetails/Detail";
 import ExerciseVideos from "../components/Exercises/ExerciseDetails/ExerciseVideos";
@@ -6,6 +6,7 @@ import SimilarExercises from "../components/Exercises/ExerciseDetails/SimilarExe
 import { fetchData, exerciseOptions, youtubeOptions } from "../utils/fetchData";
 import Navbar from "../components/Others/Navbar";
 import Footer from "../components/Others/Footer"
+import Alert from "../components/Others/Alert";
 
 const ExerciseDetails = () => {
   useEffect(() => {
@@ -35,7 +36,7 @@ const ExerciseDetails = () => {
         `${youtubeSearchUrl}/search?query=${exerciseDetailData.name}`,
         youtubeOptions
       );
-      console.log(exerciseVideosData);
+      // console.log(exerciseVideosData);
       setExerciseVideosLoading(false)
       const targetMuscleExercisesData = await fetchData(
         `${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`,
@@ -53,9 +54,11 @@ const ExerciseDetails = () => {
     fetchExercisesData();
   }, [id]);
 
+
   return (
     <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[100vh]">
       <Navbar />
+      <Alert/>
       <Detail exerciseDetail={exerciseDetail} exerciseLoading={exerciseLoading}/>
       <ExerciseVideos
         exerciseVideos={exerciseVideos}

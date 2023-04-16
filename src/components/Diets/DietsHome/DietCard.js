@@ -1,17 +1,56 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import { Link } from "react-router-dom";
 import LocalFireDepartmentSharpIcon from "@mui/icons-material/LocalFireDepartmentSharp";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-const DietCard = ({ diet }) => {
-  const [bookmark, setBookmark] = useState(false);
+import DietBookmarkContext from "../../../context/DietBookmarks/DietBookmarkContext";
+import UserContext from "../../../context/user/userContext";
+import AlertContext from "../../../context/alerts/AlertContext";
 
-// console.log(diet.recipe.ingredients.length);
-//logic to extract recipe id 
-let recipeId = (diet._links.self.href);
-console.log(recipeId);
-recipeId = recipeId.substr(38,32)
+const DietCard = ({ diet }) => {
+  const [bookmark, setBookmark] = useState(false)
+  const [bookmarkId, setBookmarkId] = useState("")
+  const dietBookmarkContext = useContext(DietBookmarkContext);
+  const {dietsBookmarks,fetchAllDietBookMarks,addDietBookmark,deleteDietBookmark} = dietBookmarkContext;
+  const userContext = useContext(UserContext);
+  const { user} = userContext;
+  const alertContext = useContext(AlertContext);
+    const { showAlert } = alertContext;
+
+  useEffect(() => {
+    if (localStorage.getItem("endurefit-token") ) {
+      dietsBookmarks.forEach((element,index )=> {
+          if (user.userId===element.userId) {
+            // console.log(diet.recipe.url);
+            if (element.bookmarkDetail.recipe.url === diet.recipe.url) {
+              setBookmark(true)
+              setBookmarkId(element._id)
+              console.log("inside true");
+            }
+          }
+        });
+    }
+  }, [dietsBookmarks])
+  
+  const handleBookmark = async ()=>{
+    if (!bookmark) {
+      const json = await addDietBookmark(diet)
+      if (json.success) {
+        setBookmark(true);
+        showAlert(json.success, json.msg);
+
+      }
+    }
+    else{
+      const json = await deleteDietBookmark(bookmarkId);
+      if (json.success) {
+        setBookmark(false)
+        showAlert(json.success, json.msg);
+
+      }
+    }
+}
   return (
     <div
       className="exercise-card flex m-auto justify-center items-center"
@@ -54,18 +93,15 @@ recipeId = recipeId.substr(38,32)
           </Link>
         </div>
         <div className="mt-4 flex justify-center items-center mb-6">
-          {localStorage.getItem("endurefit-token") ? (
-            <button
-              className="middle none center capitalize  rounded-3xl  bg-blue-400 hover:bg-blue-300 text-black py-2 px-2 font-sans text-xs font-bold  shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              data-ripple-light="true"
-              // onClick={handleBookmark}
-            >
-              {bookmark ? <BookmarkAddedIcon /> : <BookmarkAddOutlinedIcon />}
-              {bookmark ? "Bookmarked" : "Bookmark"}
-            </button>
-          ) : (
-            "login to bookmark"
-          )}
+          {localStorage.getItem("endurefit-token") ?<button
+            className="middle none center capitalize  rounded-3xl  bg-blue-400 hover:bg-blue-300 text-black py-2 px-2 font-sans text-xs font-bold  shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            data-ripple-light="true"
+            onClick={handleBookmark}
+          >
+            {bookmark?<BookmarkAddedIcon/>:<BookmarkAddOutlinedIcon/>}
+            {bookmark?"Bookmarked":"Bookmark"}
+          
+          </button>:"login to bookmark"}
         </div>
       </div>
     </div>
