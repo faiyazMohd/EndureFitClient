@@ -49,7 +49,7 @@ export default function BookMarksTabs() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%',marginBottom:"5rem" }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
           <Tab label="Exercise" {...a11yProps(0)} sx={{fontWeight:"bold",color:"#2a477f"}}/>

@@ -37,9 +37,9 @@ const ForgotPassword = () => {
         console.log(forgotpasswordCred);
         window.scrollTo({ top: 0, behavior: "smooth" });
         if (
-          forgotpasswordCred.email.length > 0 ||
-          forgotpasswordCred.ans.length > 0 ||
-          forgotpasswordCred.newPassword.length > 0 ||
+          forgotpasswordCred.email.length > 0 &&
+          forgotpasswordCred.ans.length > 0 &&
+          forgotpasswordCred.newPassword.length > 0 &&
           forgotpasswordCred.confirmNewPassword.length > 0
         ) {
         if (forgotpasswordCred.newPassword === forgotpasswordCred.confirmNewPassword) {

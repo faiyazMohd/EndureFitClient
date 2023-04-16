@@ -49,10 +49,10 @@ const SignUp = () => {
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (
-      signupCred.email.length > 0 ||
-      signupCred.name.length > 0 ||
-      signupCred.ans.length > 0 ||
-      signupCred.password.length > 0 ||
+      signupCred.email.length > 0 &&
+      signupCred.name.length > 0 &&
+      signupCred.ans.length > 0 &&
+      signupCred.password.length > 0 &&
       signupCred.cpassword.length > 0
     ) {
       if (signupCred.password === signupCred.cpassword) {

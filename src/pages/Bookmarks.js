@@ -45,7 +45,7 @@ import BookMarksTabs from "../components/Others/BookMarksTabs";
 
 const Bookmarks = () => {
   return (
-    <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[90vh]">
+    <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[90vh] ">
       <Navbar />
       <Alert />
       <div className="mt-5 mb-8">
@@ -53,7 +53,7 @@ const Bookmarks = () => {
       </div>
 
       <BookMarksTabs />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };
