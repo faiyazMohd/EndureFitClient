@@ -474,7 +474,7 @@ const SearchDiets = ({ setSearchFor, setQueryFor }) => {
         >
           Submit
         </button> */}
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center mt-8">
               <Button
                 variant="contained"
                 sx={{

@@ -12,8 +12,6 @@ const Profile = () => {
   useEffect(() => {
     setUserInformation();
     setUserProfileInfo();
-    console.log("fitnessDetails inside profile is "+fitnessDetails.bmi);
-   
   }, []);
   
   const date = {

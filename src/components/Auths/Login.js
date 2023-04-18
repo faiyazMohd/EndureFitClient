@@ -33,7 +33,7 @@ const Login = () => {
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
-    if (loginCred.email.length > 0 && loginCred.password > 0) {
+    if (loginCred.email.length > 0 && loginCred.password.length > 0) {
       setLoadingProgress(20);
       const response = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",

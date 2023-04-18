@@ -6,7 +6,7 @@ const DietsBanner = () => {
     <div className="bg mx-auto flex-col justify-center ">
       <div className="bgPng relative flex flex-col justify-center items-center">
         <img className=" m-auto mix-blend-multiply z-0" src={bgPng} alt="" />
-        <div className="flex justify-evenly xl:justify-end items-center w-[90%] absolute top-36 m-auto  z-10 ">
+        <div className="flex justify-evenly xl:justify-end 2xl:justify-around items-center w-[90%] xl:w-[70%] 2xl:w-[50%] absolute top-36 m-auto  z-10 ">
           <div className="w-[40%] ">
             <h1 className="text-[#771e1e] opacity-80  text-4xl  sm:text-6xl lg:text-8xl tracking-wide font-bold ">
               Vibrant

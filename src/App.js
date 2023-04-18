@@ -20,6 +20,9 @@ import FitnessState from "./context/fitness/FitnessState";
 import ExeBookmarksState from "./context/ExerciseBookmarks/ExeBookmarksState";
 import DietDetails from "./pages/DietDetails";
 import DietBookmarkState from "./context/DietBookmarks/DietBookmarkState";
+import ForumState from "./context/forum/ForumState";
+import Thread from "./pages/Thread";
+import Comment from "./pages/Comment";
 
 const App = () => {
   const loaderContext = useContext(LoaderContext);
@@ -27,6 +30,7 @@ const App = () => {
   return (
     <AlertState>
       <UserState>
+      <ForumState>
         <ExeBookmarksState>
           <DietBookmarkState>
           <FitnessState>
@@ -49,6 +53,8 @@ const App = () => {
                     element={<DietDetails />}
                   />
                   <Route exact path="/forum" element={<Forum />} />
+                  <Route exact path="/forum/thread/:catId" element={<Thread />} />
+                  <Route exact path="/forum/thread/comment/:threadId" element={<Comment />} />
                   <Route exact path="/signUp" element={<SignUp />} />
                   <Route exact path="/login" element={<Login />} />
                   <Route
@@ -69,6 +75,7 @@ const App = () => {
           </FitnessState>
           </DietBookmarkState>
         </ExeBookmarksState>
+      </ForumState>
       </UserState>
     </AlertState>
   );
