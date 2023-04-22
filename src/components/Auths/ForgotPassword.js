@@ -5,12 +5,16 @@ import { Link, useNavigate } from "react-router-dom";
 import Alert from "../Others/Alert";
 import AlertContext from "../../context/alerts/AlertContext";
 import EmailValidator from 'email-validator';
+import LoaderContext from "../../context/loader/LoaderContext";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const ForgotPassword = () => {
+  document.title = "EndureFit - Forget Password"
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+  const loaderContext = useContext(LoaderContext);
+  const { setLoadingProgress } = loaderContext;
     const alertContext = useContext(AlertContext);
     const { showAlert } = alertContext;
     const navigate = useNavigate();
@@ -26,7 +30,6 @@ const ForgotPassword = () => {
         setForgotpasswordCred({ ...forgotpasswordCred, [event.target.name]: event.target.value });
     };
     const handleOnChangeForSelect = (event) => {
-      console.log(event.target.selectedOptions[0].text);
       setForgotpasswordCred({
         ...forgotpasswordCred,
         [event.target.name]: event.target.selectedOptions[0].text,
@@ -34,7 +37,6 @@ const ForgotPassword = () => {
     };
     const handleSignupSubmit = async (event) => {
         event.preventDefault();
-        console.log(forgotpasswordCred);
         window.scrollTo({ top: 0, behavior: "smooth" });
         if (
           forgotpasswordCred.email.length > 0 &&
@@ -44,6 +46,7 @@ const ForgotPassword = () => {
         ) {
         if (forgotpasswordCred.newPassword === forgotpasswordCred.confirmNewPassword) {
           
+          setLoadingProgress(20);
             const response = await fetch(`${BASE_URL}/api/auth/forgetpass`, {
               method: "PUT",
               headers: {
@@ -56,7 +59,9 @@ const ForgotPassword = () => {
                 newPassword: forgotpasswordCred.newPassword,
               }),
             });
+            setLoadingProgress(50);
             const json = await response.json();
+            setLoadingProgress(100);
             if (json.success) {
               navigate("/login");
               setForgotpasswordCred({

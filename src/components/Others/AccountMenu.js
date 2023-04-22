@@ -17,7 +17,8 @@ import { Link } from "react-router-dom";
 import AlertContext from "../../context/alerts/AlertContext";
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import UserContext from "../../context/user/userContext";
-
+import ChatBotContext from "../../context/chatbot/ChatBotContext";
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -25,6 +26,8 @@ export default function AccountMenu() {
   const { showAlert } = alertContext;
   const userContext = React.useContext(UserContext);
   const { user,setUserInformation,setUser,setUserProfile,setFitnessDetails } = userContext;
+  const chatBotContext =  React.useContext(ChatBotContext);
+  const {updateMessages} =  chatBotContext;
   React.useEffect(() => {
     setUserInformation()
   }, [])
@@ -45,6 +48,12 @@ export default function AccountMenu() {
       bodyFatPercentage:0,
       idealWeight:0
     })
+    updateMessages([
+      {
+        isAi: true,
+        message: "Hi there 👋 Got a question? \n I'm here to help 😄",
+      }
+    ])
     showAlert(true, "Logged Out Successffully");
   };
   return (
@@ -109,9 +118,9 @@ export default function AccountMenu() {
                 <BookmarksIcon sx={{ color: blue[600], mr: 1 }} /> Bookmarks
             </MenuItem>
           </Link>
-          <Link to="/">
+          <Link to="/contact">
             <MenuItem onClick={handleClose}>
-                <ContactSupportIcon sx={{ color: blue[600], mr: 1 }} /> Help
+                <SupportAgentIcon sx={{ color: blue[600], mr: 1 }} /> Contact
             </MenuItem>
           </Link>
         <Divider />

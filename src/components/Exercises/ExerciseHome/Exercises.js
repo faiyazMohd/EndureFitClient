@@ -46,7 +46,6 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setLoad
           exerciseOptions
         );
       }
-      // console.log(exercisesData);
       setShowing("bodyPart")
       setExercises(exercisesData);
       setBodyPartLoad(false)
@@ -83,12 +82,6 @@ const Exercises = ({ bodyPart, setExercises, exercises, searchFor, load ,setLoad
           </>
         )
         }
-      {}
-      {/* <h1 className="text-[#1a2b4b] capitalize text-center mt-20 font-bold text-4xl sm:text-4xl lg:text-4xl  tracking-wide ">
-        {bodyPart === "all"
-          ? "all the exercises"
-          : bodyPart + " exercises(bodyPart)"}
-      </h1> */}
 
       {load || bodyPartLoad ? <Loader /> : ""}
 

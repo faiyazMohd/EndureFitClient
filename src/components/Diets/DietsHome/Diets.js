@@ -25,9 +25,7 @@ const Diets = ({ searchFor, queryFor, inputSearch, setInputSearch }) => {
     });
     let url = `https://api.edamam.com/api/recipes/v2?type=public&q=${queryFor}&app_id=${apiId}&app_key=${apiKey}`;
     setLoading(true);
-    console.log("query url  is " + url);
     let data = await fetch(url);
-    // console.log("data is  "+data);
     let parsedData = await data.json();
     setLoading(false);
 
@@ -77,19 +75,12 @@ const Diets = ({ searchFor, queryFor, inputSearch, setInputSearch }) => {
 
     // }
     let url = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${apiId}&app_key=${apiKey}&calories=${searchFor.minCalories}-${searchFor.maxCalories}${health}${ingredients}${diet}${cuisineType}${mealType}${dishType}`;
-    console.log("moddified url is " + url);
-    // let url = `https://api.edamam.com/api/recipes/v2?type=public&q=${queryFor}&app_id=${apiId}&app_key=${apiKey}`;
+   
+
     setLoading(true);
     let data = await fetch(url);
-    // console.log("data is  "+data);
     let parsedData = await data.json();
     setLoading(false);
-
-    // console.log(parsedData);
-    // console.log(parsedData.count);
-    // console.log(parsedData._links.next.href);
-    // console.log("parsedData hits is "+parsedData);
-
     setQueryResult({
       results: parsedData.hits,
       totalResults: parsedData.count,
@@ -99,19 +90,11 @@ const Diets = ({ searchFor, queryFor, inputSearch, setInputSearch }) => {
 
   const fetchMoreQueryData = async () => {
     let url = queryResult.nextPage;
-    console.log("url is " + url);
     setLoading(true);
     let data = await fetch(url);
-    // console.log("data is  "+data);
     let parsedData = await data.json();
 
     setLoading(false);
-    // console.log("parsedData  is "+parsedData);
-    // console.log("from  is "+parsedData.from);
-    // console.log("to  is "+parsedData.to);
-    // console.log("parsedData hits is "+parsedData.hits);
-    // console.log("parsedData count is "+parsedData.count);
-    // console.log("next page link is "+parsedData._links);
     setQueryResult({
       results: queryResult.results.concat(parsedData.hits),
       totalResults: parsedData.count,

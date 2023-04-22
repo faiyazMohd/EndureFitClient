@@ -8,7 +8,7 @@ import { blue } from "@mui/material/colors";
 const Profile = () => {
   const userContext = React.useContext(UserContext);
   const { user, setUserInformation, userProfile, setUserProfileInfo,setFitnessInformation,fitnessDetails } =userContext;
-
+  document.title = "EndureFit - Profile"
   useEffect(() => {
     setUserInformation();
     setUserProfileInfo();

@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-  
+  document.title = "EndureFit - Home"
   return (
     <>
       <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200">

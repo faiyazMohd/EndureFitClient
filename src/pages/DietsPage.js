@@ -11,6 +11,7 @@ const DietsPage = () => {
   const [queryFor, setQueryFor] = useState("organic");
   const [searchFor, setSearchFor] = useState({});
   const [inputSearch, setInputSearch] = useState(false)
+  document.title = "EndureFit - Diets"
   return (
     <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[100vh]">
       <Navbar />

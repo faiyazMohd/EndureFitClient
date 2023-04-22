@@ -123,7 +123,7 @@ const bodyParts = [
 ];
 
 export default function Categories({ setBodyPart,setShowing}) {
-    // console.log(images.url);
+
   return (
     <Container component="section" sx={{ mt: 0, mb: 4 }}>
       <Box sx={{ mt: 0, display: 'flex', flexWrap: 'wrap' }}>

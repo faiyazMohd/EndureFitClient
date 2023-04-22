@@ -12,7 +12,6 @@ const Details = ({ diet }) => {
   useEffect(() => {
     if (diet.totalNutrients) {
       setShow(true);
-      console.log(diet);
     } else {
       setShow(false);
     }

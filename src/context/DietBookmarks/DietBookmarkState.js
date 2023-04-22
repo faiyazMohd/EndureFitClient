@@ -38,7 +38,6 @@ const DietBookmarkState = (props) => {
             }),
           });
           const json = await response.json();
-          // console.log(json);
           if (json.success) {
             fetchAllDietBookMarks();
           }
@@ -56,7 +55,6 @@ const DietBookmarkState = (props) => {
             }
           });
           const json = await response.json();
-          // console.log(json);
           if (json.success) {
             fetchAllDietBookMarks();
           }

@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import UserContext from "./userContext";
 import { calculateBMI,dailyCalorieReq,calculateBodyFat,calculateIdealWeight } from "../../utils/fitnessCalulator";
+import LoaderContext from "../loader/LoaderContext"
+import { useContext } from "react";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const UserState = (props) => {
+  const loaderContext = useContext(LoaderContext);
+  const { setLoadingProgress } = loaderContext;
     const [user, setUser] = useState({});
     const [userProfile, setUserProfile] = useState({})
     const [fitnessDetails, setFitnessDetails] = useState({
@@ -29,11 +33,11 @@ const UserState = (props) => {
                 email:json.user.email,
                 date:json.user.date
             });
-            // console.log(json.user.picture,);
           }
     }
     const setUserProfileInfo= async ()=>{
         const authToken = localStorage.getItem("endurefit-token") ;
+        setLoadingProgress(20);
         const response = await fetch(`${BASE_URL}/api/userDetails/getdetails`, {
             method: "GET",
             headers: {
@@ -41,8 +45,9 @@ const UserState = (props) => {
               "Content-Type": "application/json"
             }
           });
+          setLoadingProgress(50);
           const json = await response.json();
-          // console.log(json.userDet);
+          setLoadingProgress(100);
           if (json.success) {
             setUserProfile(
               json.userDet.userDetails,
@@ -51,9 +56,8 @@ const UserState = (props) => {
             const usersDailyCalorieReq = await dailyCalorieReq(json.userDet.userDetails.age,json.userDet.userDetails.weight,json.userDet.userDetails.height,json.userDet.userDetails.gender,json.userDet.userDetails.activityLevel);
             const usersBodyFat = await calculateBodyFat(json.userDet.userDetails.age,json.userDet.userDetails.weight,json.userDet.userDetails.height,json.userDet.userDetails.gender,json.userDet.userDetails.neck,json.userDet.userDetails.waist,json.userDet.userDetails.hip);
             const usersIdealWeight = await calculateIdealWeight(json.userDet.userDetails.gender,json.userDet.userDetails.height);
-            // console.log(usersBodyFat.data);
+           
             const bodyFatPercentage = Object.values(usersBodyFat.data)[3];
-            // const bodyFatPercentage =usersBodyFat.data;
             setFitnessDetails({
               bmi:userBMI.data,
               dailyCalorieReq:usersDailyCalorieReq.data,
@@ -64,7 +68,6 @@ const UserState = (props) => {
     }
 
     const setFitnessInformation = ()=>{
-      console.log(userProfile.age);
       const userBMI =  calculateBMI(userProfile.age,userProfile.weight,userProfile.height);
       setFitnessDetails({
         bmi:userBMI.data

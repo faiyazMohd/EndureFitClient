@@ -8,7 +8,6 @@ import Loader from "../../Others/Loader";
 
 const Detail = ({ exerciseDetail,exerciseLoading }) => {
   const { bodyPart, gifUrl, name, target, equipment,id } = exerciseDetail;
-  // console.log(exerciseDetail);
   const extraDetail = [
     {
       icon: BodyPartImage,

@@ -12,6 +12,7 @@ const ExercisesPage = () => {
   const [searchFor, setSearchFor] = useState("");
   const [load, setLoad] = useState(false);
   const [showing, setShowing] = useState("");
+  document.title = "EndureFit - Exercises"
   return (
     <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200 min-h-[100vh]">
       <Navbar />

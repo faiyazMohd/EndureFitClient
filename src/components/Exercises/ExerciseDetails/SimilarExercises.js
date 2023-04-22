@@ -3,8 +3,7 @@ import React from "react";
 import HorizontalScrollbar from "../ExerciseHome/HorizontalScrollbar";
 import Loader from "../../Others/Loader";
 const SimilarExercises = ({ equipmentExercises, targetMuscleExercises }) => {
-    // console.log(equipmentExercises);
-    // console.log(targetMuscleExercises);
+
   return (
     <div className="mt-32 mb-24">
       <Typography variant="h3" mb={5} textAlign={"center"}>
@@ -16,7 +15,6 @@ const SimilarExercises = ({ equipmentExercises, targetMuscleExercises }) => {
           p: "2",
           position: "relative",
         }}
-        // overflow={"hidden"}
         
       >
         {targetMuscleExercises.length? (
@@ -33,7 +31,6 @@ const SimilarExercises = ({ equipmentExercises, targetMuscleExercises }) => {
           position: "relative",
           width:"100%"
         }}
-        // overflow={"hidden"}
       >
         {equipmentExercises.length? (
           <HorizontalScrollbar data={equipmentExercises} />

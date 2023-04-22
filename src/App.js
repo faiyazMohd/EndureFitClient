@@ -23,19 +23,24 @@ import DietBookmarkState from "./context/DietBookmarks/DietBookmarkState";
 import ForumState from "./context/forum/ForumState";
 import Thread from "./pages/Thread";
 import Comment from "./pages/Comment";
+import ChatBotState from "./context/chatbot/ChatBotState";
+import ChatBot from "./components/Others/ChatBot";
+import Contact from "./pages/Contact";
 
 const App = () => {
   const loaderContext = useContext(LoaderContext);
   const { progress } = loaderContext;
   return (
     <AlertState>
+      <ChatBotState>
       <UserState>
       <ForumState>
         <ExeBookmarksState>
           <DietBookmarkState>
           <FitnessState>
             <BrowserRouter>
-              <LoadingBar color="#374151" progress={progress} />
+              <LoadingBar color="#1a2b4b" progress={progress} />
+              <ChatBot/>
               <Routes>
                 <Route>
                   <Route exact path="/" element={<Home />} />
@@ -69,6 +74,7 @@ const App = () => {
                   />
                   <Route exact path="/profile" element={<Profile />} />
                   <Route exact path="/bookmarks" element={<Bookmarks />} />
+                  <Route exact path="/contact" element={<Contact />} />
                 </Route>
               </Routes>
             </BrowserRouter>
@@ -77,6 +83,7 @@ const App = () => {
         </ExeBookmarksState>
       </ForumState>
       </UserState>
+      </ChatBotState>
     </AlertState>
   );
 };

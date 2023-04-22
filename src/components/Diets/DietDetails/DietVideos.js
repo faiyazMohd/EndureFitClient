@@ -2,9 +2,6 @@ import React from "react";
 import DietLoader from "../../Others/DietLoader";
 
 const DietVideos = ({dietVideos, name, videosLoading}) => {
-    // console.log("dietvideos is "+dietVideos);
-    // console.log("name is "+name);
-    // console.log("videosLoading is "+videosLoading);
   return (
     <div className="text-center w-[80%] m-auto mt-24 flex-col justify-center items-center mb-44">
       <h4 className="text-[#1a2b4b] text-3xl mb-8" color="#1a2b4b">
@@ -16,7 +13,6 @@ const DietVideos = ({dietVideos, name, videosLoading}) => {
 
       <div className=" flex flex-col m-auto flex-wrap justify-center items-center  gap-20 md:grid  md:grid-cols-2 xl:grid-cols-3">
         {dietVideos.slice(0, 6).map((item, index) => {
-            console.log("item.videois "+item.video);
             if (item.video!==undefined) {
                 return (
                   <a

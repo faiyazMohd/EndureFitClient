@@ -9,6 +9,7 @@ const ExeBookmarksState = (props) => {
     const [exerciseBookmarks, setExerciseBookmarks] = useState([])
     const alertContext = useContext(AlertContext);
     const { showAlert } = alertContext;
+    const [bookmarkLoading, setBookmarkLoading] = useState(false)
 
     const fetchAllExeBookMarks = async ()=>{
         const authToken = localStorage.getItem("endurefit-token") ;
@@ -20,7 +21,6 @@ const ExeBookmarksState = (props) => {
             }
           });
           const json = await response.json();
-        //   console.log(json.bookmarks);
           if (json.success) {
             setExerciseBookmarks(json.bookmarks);
           }
@@ -28,6 +28,7 @@ const ExeBookmarksState = (props) => {
 
     const addExerciseBookmark = async (bookmarkDetail)=>{
         const authToken = localStorage.getItem("endurefit-token") ;
+        setBookmarkLoading(true)
         const response = await fetch(`${BASE_URL}/api/userDetails/addexercisebookmark`, {
             method: "POST",
             headers: {
@@ -38,6 +39,7 @@ const ExeBookmarksState = (props) => {
                 bookmarkDetail:bookmarkDetail
             }),
           });
+          setBookmarkLoading(false)
           const json = await response.json();
           if (json.success) {
             fetchAllExeBookMarks();
@@ -46,6 +48,7 @@ const ExeBookmarksState = (props) => {
     }
     const deleteExerciseBookmark = async (bookmarkId)=>{
         const authToken = localStorage.getItem("endurefit-token") ;
+        setBookmarkLoading(true)
         const response = await fetch(`${BASE_URL}/api/userDetails/deleteexercisebookmark/${bookmarkId}`, {
             method: "DELETE",
             headers: {
@@ -53,8 +56,8 @@ const ExeBookmarksState = (props) => {
               "auth-token":authToken
             }
           });
+          setBookmarkLoading(false)
           const json = await response.json();
-          console.log(json);
           if (json.success) {
             fetchAllExeBookMarks();
           }
@@ -63,7 +66,7 @@ const ExeBookmarksState = (props) => {
 
 
   return (
-    <ExeBookmarksContext.Provider value={{exerciseBookmarks,addExerciseBookmark,fetchAllExeBookMarks,deleteExerciseBookmark}}>
+    <ExeBookmarksContext.Provider value={{exerciseBookmarks,addExerciseBookmark,fetchAllExeBookMarks,deleteExerciseBookmark,bookmarkLoading, setBookmarkLoading}}>
       {props.children}
     </ExeBookmarksContext.Provider>
   );

@@ -20,12 +20,7 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const alertContext = useContext(AlertContext);
   const { showAlert } = alertContext;
-  // const handleLogoutClick = () => {
-  //   localStorage.removeItem("endurefit-token");
-  //   showAlert(true, "Logged Out Successffully");
-  // };
   const pathname = useLocation().pathname;
-  // console.log(`current path is` + pathname);
   return (
     <div className="Navbar -mt-2">
       <header className="">
@@ -68,16 +63,7 @@ const Navbar = () => {
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {localStorage.getItem("endurefit-token") ? (
-              // <Link
-              //   to="/login"
-              //   className="hover:font-bold font-semibold leading-6 text-[#2a477f]"
-              //   onClick={handleLogoutClick}
-              // >
-              //   Logout{" "}
-              //   <span aria-hidden="true">
-              //     <LogoutIcon />
-              //   </span>
-              // </Link>
+             
               <AccountMenu/>
             ) : pathname === "/login" ? (
               <Link
@@ -133,12 +119,7 @@ const Navbar = () => {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
               <div className="py-6">
-                  {/* <Link
-                    to="/login"
-                    className="-mx-3 hover:font-bold block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
-                  >
-                    Log in
-                  </Link> */}
+                 
                   {localStorage.getItem("endurefit-token") ? (
                     <AccountMenu/>
                   ) : pathname === "/login" ? (
@@ -168,7 +149,7 @@ const Navbar = () => {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className="hover:font-bold -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-[#2a477f] hover:bg-gray-50"
+                      className={`hover:font-bold -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-[#2a477f] ${pathname===item.href?"border-l-2 border-blue-900":""} hover:bg-gray-50`}
                     >
                       {item.name}
                     </Link>

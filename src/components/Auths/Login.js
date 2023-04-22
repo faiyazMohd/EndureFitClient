@@ -11,6 +11,7 @@ import LoaderContext from "../../context/loader/LoaderContext";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Login = () => {
+  document.title = "EndureFit - Login"
   // const pathname = useLocation().pathname;
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -70,8 +71,6 @@ const Login = () => {
   const handleCredentialResponse = async (googleResponse) => {
     // console.log("Encoded JWT ID token : " + response.credential);
     let userObject = jwt_decode(googleResponse.credential);
-    // console.log(userObject);
-    // setUserGoogle(userObject);
     const response = await fetch(`${BASE_URL}/api/auth/googlesignin`, {
       method: "POST",
       headers: {

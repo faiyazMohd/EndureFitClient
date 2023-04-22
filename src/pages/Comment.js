@@ -11,6 +11,7 @@ import { blue } from "@mui/material/colors";
 import CommentCard from "../components/Forum/CommentCard";
 
 const Comment = () => {
+  document.title = "EndureFit - Forum"
   const { threadId } = useParams();
   const [thread, setThread] = useState({});
   const alertContext = useContext(AlertContext);
@@ -28,7 +29,17 @@ const Comment = () => {
     comment: "",
   });
   const forumContext = useContext(ForumContext);
-  const {categories,fetchAllCategories,addThread,threads,fetchAllThreads,findThread,comments,fetchAllComments,addComment}= forumContext;
+  const {
+    categories,
+    fetchAllCategories,
+    addThread,
+    threads,
+    fetchAllThreads,
+    findThread,
+    comments,
+    fetchAllComments,
+    addComment,
+  } = forumContext;
 
   useEffect(() => {
     fetchAllComments(threadId);
@@ -39,7 +50,7 @@ const Comment = () => {
   };
   const onSubmit = (event) => {
     event.preventDefault();
-    if (userComment.comment.length > 10 ) {
+    if (userComment.comment.length > 10) {
       const userPicture = user.picture ? user.picture : "";
       addComment(userComment, user.name, userPicture);
       setUserComment({
@@ -47,10 +58,7 @@ const Comment = () => {
         comment: "",
       });
     } else {
-      showAlert(
-        false,
-        "comment must be atleast 10 characters"
-      );
+      showAlert(false, "comment must be atleast 10 characters");
     }
   };
   useEffect(() => {
@@ -123,9 +131,22 @@ const Comment = () => {
       <div className=" w-[90%] m-auto text-[#2a477f] mt-8">
         <h3 className="text-4xl font-semibold ">Discussions</h3>
         <div className="mt-6 w-[100%] md:w-[90%] md:m-0 m-auto mb-12">
-          {comments.map((comment, index) => {
-            return <CommentCard key={comment._id} comment={comment} />;
-          })}
+          {comments.length === 0 ? (
+            <div className="rounded-2xl py-5 px-5 text-[#2a477f] border border-slate-600 mt-6 flex flex-col  mb-6 items-start w-[90%] shadow-[0px_9px_20px_13px_#90cdf4] bg-[#e6eef6]">
+              <h1 className="text-3xl  md:text-4xl font-semibold ">
+                {" "}
+                No Comments Found!!
+              </h1>
+              <hr className="border border-slate-600 mt-8 w-full" />
+              <p className="text-xl mt-5 font-normal">
+                Be the first person to comment.
+              </p>
+            </div>
+          ) : (
+            comments.map((comment, index) => {
+              return <CommentCard key={comment._id} comment={comment} />;
+            })
+          )}
         </div>
       </div>
       <Footer />

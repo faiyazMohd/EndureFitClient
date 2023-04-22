@@ -9,6 +9,7 @@ import UserContext from "../context/user/userContext";
 import ThreadCard from "../components/Forum/ThreadCard";
 
 const Thread = () => {
+  document.title = "EndureFit - Forum"
   const { catId } = useParams();
   const [category, setCategory] = useState({});
   const alertContext = useContext(AlertContext);
@@ -39,10 +40,8 @@ const Thread = () => {
   };
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log(userThread);
     if (userThread.title.length > 8 && userThread.description.length > 15) {
       const userPicture = user.picture ? user.picture : "";
-      console.log("userPicture is " + userPicture);
       addThread(userThread, user.name, userPicture);
       setUserThread({
         catId: catId,
@@ -149,7 +148,14 @@ const Thread = () => {
       <div className=" w-[90%] m-auto text-[#2a477f] mt-8">
         <h3 className="text-4xl font-semibold ">Browse Questions</h3>
         <div className="mt-6 mb-7">
-          {threads.map((thread, index) => {
+          {threads.length===0?(<div className="rounded-2xl py-5 px-5 text-[#2a477f] border border-slate-600 mt-6 flex flex-col  mb-6 items-start w-[90%] shadow-[0px_9px_20px_13px_#90cdf4] bg-[#e6eef6] ">
+          <h1 className="text-3xl  md:text-4xl font-semibold ">
+            {" "}
+            No Threads Found!!
+          </h1>
+          <hr className="border border-slate-600 mt-8 w-full" />
+          <p className="text-xl mt-5 font-normal">Be the first person to ask a question.</p>
+</div>): threads.map((thread, index) => {
             return <ThreadCard key={thread._id} thread={thread} />;
           })}
         </div>

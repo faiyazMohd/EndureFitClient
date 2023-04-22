@@ -30,26 +30,26 @@ const Footer = () => {
                     <Link
                       to="/exercises"
                       className="hover:underline"
-                      target="_blank"
                     >
                       Exercises
                     </Link>
                   </li>
                   <li>
-                    <Link to="/diets" className="hover:underline" target="_blank">
+                    <Link to="/diets" className="hover:underline" >
                       Diets
                     </Link>
                   </li>
                   <li className="mt-4">
-                    <Link to="/forum" className="hover:underline" target="_blank">
+                    <Link to="/forum" className="hover:underline">
                       Forum
                     </Link>
                   </li>
-                  <li className="mt-4">
-                    <Link to="/forum" className="hover:underline" target="_blank">
+                  {localStorage.getItem("endurefit-token") ?  <li className="mt-4">
+                    <Link to="/contact" className="hover:underline">
                       Contact Us
                     </Link>
-                  </li>
+                  </li>: ""}
+                 
                 </ul>
               </div>
               <div>
@@ -97,7 +97,7 @@ const Footer = () => {
             </div>
           </div>
           <hr className="my-6 border-gray-100 sm:mx-auto dark:border-gray-700 lg:my-8" />
-          <div className="sm:flex sm:items-center sm:justify-between">
+          <div className=" sm:flex sm:items-center sm:justify-start">
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
               © 2023{" "}
               <Link
@@ -109,7 +109,7 @@ const Footer = () => {
               </Link>
               . All Rights Reserved.
             </span>
-            <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+            <div className="flex mt-4 space-x-6 sm:justify-center sm:ml-12 sm:mt-0">
               <Link
                 to="/"
                 className="text-gray-500 hover:text-gray-900 dark:hover:text-white"

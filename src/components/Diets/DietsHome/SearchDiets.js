@@ -9,8 +9,12 @@ import SoupKitchenIcon from "@mui/icons-material/SoupKitchen"; //dish
 import RamenDiningIcon from "@mui/icons-material/RamenDining"; //dish alt
 import EggAltIcon from "@mui/icons-material/EggAlt"; //diet
 // import cookingIcon from  "../../../assets/icons/cooking(2).png"
-import cookingIcon from  "../../../assets/icons/cooking.png"
-import cooking2Icon from  "../../../assets/icons/flippedCooking.png"
+import cookingIcon from "../../../assets/icons/cooking.png";
+import cooking2Icon from "../../../assets/icons/flippedCooking.png";
+import UserContext from "../../../context/user/userContext";  
+
+import { useEffect } from "react";
+
 const SearchDiets = ({ setSearchFor, setQueryFor }) => {
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState({
@@ -23,15 +27,26 @@ const SearchDiets = ({ setSearchFor, setQueryFor }) => {
     mealType: "",
     dishType: "",
   });
+  const [range, setRange] = useState(true)
+  const userContext = React.useContext(UserContext);
+  const {
+    setUserInformation,
+    userProfile,
+    setUserProfileInfo,
+    fitnessDetails,
+  } = userContext;
+
+  useEffect(() => {
+    setUserInformation();
+    setUserProfileInfo();
+  }, []);
   const handleQuery = () => {
     setQueryFor(query);
-
     setQuery("");
   };
 
   const handleSubmit = () => {
     setSearchFor(search);
-    console.log(search);
     setSearch({
       minCalories: 300,
       maxCalories: 700,
@@ -55,6 +70,24 @@ const SearchDiets = ({ setSearchFor, setQueryFor }) => {
     });
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  useEffect(() => {
+    console.log("min is "+search.minCalories +" and max is "+search.maxCalories);
+    console.log(typeof search.minCalories);
+    if (search.minCalories > search.maxCalories) {
+      // console.log("search.minCalories > search.maxCalories is ");
+      // console.log(search.minCalories > search.maxCalories);
+      setRange(false);
+      console.log("inside if");
+    }
+    else{
+      setRange(true);
+    }
+  }, [search])
+  
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   return (
     <>
       <div
@@ -81,6 +114,8 @@ const SearchDiets = ({ setSearchFor, setQueryFor }) => {
                   />
                 </label>
                 <div className="flex justify-center items-center">
+                
+                
                   <div className="minCalorie justify-center items-center flex w-full">
                     <input
                       type="number"
@@ -90,24 +125,28 @@ const SearchDiets = ({ setSearchFor, setQueryFor }) => {
                       max={search.maxCalories}
                       min={0}
                       onChange={handleOnChange}
-                      class="bg-gray-50 w-[70%] border border-gray-700 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      class="bg-gray-50 w-[70%] border border-gray-700 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block  p-2.5  "
                     />
                     <span className="text-xs ml-2">kcal</span>
                   </div>
                   <span>-</span>
                   <div className="flex justify-center items-center w-full">
                     <input
+                    
                       type="number"
                       name="maxCalories"
                       id="maxCalories"
                       value={search.maxCalories}
                       min={search.minCalories}
                       onChange={handleOnChange}
-                      class="bg-gray-50 w-[70%] border border-gray-700 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      class="bg-gray-50 w-[70%] border border-gray-700 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block  p-2.5  "
                     />
                     <span className="text-xs ml-2">kcal</span>
                   </div>
                 </div>
+                  {localStorage.getItem("endurefit-token")?<h5 className="text-xs p-1 text-center">
+                      {fitnessDetails.dailyCalorieReq===0?"calculating your daily calorie requirement...":(<> your login info says your daily calories requirement is <b>{fitnessDetails.dailyCalorieReq.BMR}</b>{" "}kcal</>)}
+                    </h5>:""}
               </div>
               <div className="Ingredients mt-4 flex justify-center items-center gap-4">
                 <div className="flex items-center">
@@ -134,7 +173,7 @@ const SearchDiets = ({ setSearchFor, setQueryFor }) => {
                     id="ingredients"
                     min={0}
                     onChange={handleOnChange}
-                    class="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block p-2.5 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block p-2.5 "
                     value={search.ingredients}
                   />
                 </div>
@@ -143,10 +182,7 @@ const SearchDiets = ({ setSearchFor, setQueryFor }) => {
               <div className="dietAndCuisine flex justify-around items-center mt-4">
                 <div className="diet flex flex-col justify-center items-center">
                   <div className="w-full flex justify-center">
-                    <label
-                      for="diet"
-                      class=" text-md font-bold text-gray-900"
-                    >
+                    <label for="diet" class=" text-md font-bold text-gray-900">
                       Diet{" "}
                       <EggAltIcon
                         sx={{
@@ -467,13 +503,6 @@ const SearchDiets = ({ setSearchFor, setQueryFor }) => {
                 </div>
               </div>
             </div>
-
-            {/* <button
-          type="submit"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Submit
-        </button> */}
             <div className="flex flex-col justify-center items-center mt-8">
               <Button
                 variant="contained"
@@ -485,24 +514,24 @@ const SearchDiets = ({ setSearchFor, setQueryFor }) => {
                 href="#diets"
                 onClick={handleSubmit}
                 disabled={
-                  search.minCalories > search.maxCalories ||
-                  search.ingredients < 0
+                  Number(search.minCalories) > Number(search.maxCalories) ||
+                  Number(search.ingredients) < 0
                 }
               >
-                <img src={cookingIcon} alt="" className="-rotate-12"/>
+                <img src={cookingIcon} alt="" className="-rotate-12" />
                 <b>Search</b>
-                <img src={cooking2Icon} alt="" className="rotate-12"/>
+                <img src={cooking2Icon} alt="" className="rotate-12" />
               </Button>
               <span
                 className={`text-xs text-red-600 ${
-                  search.minCalories > search.maxCalories ? "" : "hidden"
+                  Number(search.minCalories) > Number(search.maxCalories) ? "" : "hidden"
                 }`}
               >
                 please check the calories range
               </span>
               <span
                 className={`text-xs text-red-600 ${
-                  search.ingredients < 0 ? "" : "hidden"
+                  Number(search.ingredients) < 0 ? "" : "hidden"
                 }`}
               >
                 ingredients cannot be negative

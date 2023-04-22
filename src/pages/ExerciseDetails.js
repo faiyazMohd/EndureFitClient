@@ -7,8 +7,12 @@ import { fetchData, exerciseOptions, youtubeOptions } from "../utils/fetchData";
 import Navbar from "../components/Others/Navbar";
 import Footer from "../components/Others/Footer"
 import Alert from "../components/Others/Alert";
-
+import { useContext } from "react";
+import LoaderContext from "../context/loader/LoaderContext"
 const ExerciseDetails = () => {
+  const loaderContext = useContext(LoaderContext);
+  const { setLoadingProgress } = loaderContext;
+  document.title = "EndureFit - Exercise Detail"
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -25,10 +29,12 @@ const ExerciseDetails = () => {
       const youtubeSearchUrl =
         "https://youtube-search-and-download.p.rapidapi.com";
       setExerciseLoading(true);
+      setLoadingProgress(50);
       const exerciseDetailData = await fetchData(
         `${exerciseDbUrl}/exercises/exercise/${id}`,
         exerciseOptions
       );
+      setLoadingProgress(100);
       setExerciseLoading(false);
 
       setExerciseVideosLoading(true)
@@ -36,7 +42,6 @@ const ExerciseDetails = () => {
         `${youtubeSearchUrl}/search?query=${exerciseDetailData.name}`,
         youtubeOptions
       );
-      // console.log(exerciseVideosData);
       setExerciseVideosLoading(false)
       const targetMuscleExercisesData = await fetchData(
         `${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`,

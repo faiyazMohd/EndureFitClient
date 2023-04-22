@@ -7,9 +7,13 @@ import AlertContext from "../../context/alerts/AlertContext";
 import EmailValidator from "email-validator";
 import jwt_decode from "jwt-decode";
 import UserContext from "../../context/user/userContext";
+import LoaderContext from "../../context/loader/LoaderContext";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const SignUp = () => {
+  const loaderContext = useContext(LoaderContext);
+  const { setLoadingProgress } = loaderContext;
+  document.title = "EndureFit - Signup"
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [])
@@ -33,14 +37,12 @@ const SignUp = () => {
     setSignupCred({ ...signupCred, [event.target.name]: event.target.value });
   };
   const handleOnChangeForSelect = (event) => {
-    console.log(event.target.selectedOptions[0].text);
     setSignupCred({
       ...signupCred,
       [event.target.name]: event.target.selectedOptions[0].text,
     });
   };
   const handleOnChangeForCheckBox = (event) => {
-    // console.log(signupCred.termsaAndCondCheck);
     setTermsaAndCondCheck(event.target.checked);
     // setSignupCred({ ...signupCred, [signupCred.termsaAndCondCheck]: event.target.checked});
   };
@@ -57,6 +59,7 @@ const SignUp = () => {
     ) {
       if (signupCred.password === signupCred.cpassword) {
         if (termsaAndCondCheck) {
+          setLoadingProgress(20);
           const response = await fetch(`${BASE_URL}/api/auth/createuser`, {
             method: "POST",
             headers: {
@@ -70,7 +73,9 @@ const SignUp = () => {
               password: signupCred.password,
             }),
           });
+          setLoadingProgress(50);
           const json = await response.json();
+          setLoadingProgress(100);
           if (json.success) {
             // Save the auth token and redirect
             localStorage.setItem("endurefit-token", json.authToken);
@@ -308,7 +313,6 @@ const SignUp = () => {
                 >
                   both the passwords must match
                 </label>
-
 
               </div>
 

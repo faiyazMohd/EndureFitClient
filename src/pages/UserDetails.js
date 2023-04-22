@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Others/Navbar";
 import Alert from "../components/Others/Alert";
 import Footer from "../components/Others/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AlertContext from "../context/alerts/AlertContext";
 import UserContext from "../context/user/userContext";
+import LoaderContext from "../context/loader/LoaderContext";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const SignUp = () => {
+  document.title = "EndureFit - User Details"
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -15,6 +17,8 @@ const alertContext = useContext(AlertContext);
 const { showAlert } = alertContext;
 const  userContext = useContext(UserContext);
 const {user,setUserProfileInfo} =  userContext;
+const loaderContext = useContext(LoaderContext);
+  const { setLoadingProgress } = loaderContext;
 const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({
     age: 0,
@@ -39,24 +43,20 @@ const navigate = useNavigate();
       [event.target.name]: event.target.selectedOptions[0].value,
     });
   };
-  // useEffect(() => {
-  //   console.log(userDetails);
-  
-  // }, [userDetails])
-  
   const handleSubmit = async (event) => {
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
-    if ((userDetails.age > 0 && userDetails.age <= 80) &&
+    if ((Number(userDetails.age) > 0 && Number(userDetails.age) <= 80) &&
     (userDetails.gender.length > 0 ) &&
-    (userDetails.weight >= 40 && userDetails.weight <= 160) &&
-    (userDetails.height >= 130 && userDetails.height <= 230) &&
+    Number((userDetails.weight) >= 40 && Number(userDetails.weight) <= 160) &&
+    Number((userDetails.height) >= 130 && Number(userDetails.height) <= 230) &&
     (userDetails.dietType.length > 0) &&
-    (userDetails.neck >= 20 && userDetails.neck <= 80) &&
-    (userDetails.waist >= 40 && userDetails.waist <= 160) &&
-    (userDetails.hip >= 40 && userDetails.hip <= 160)    
+    Number((userDetails.neck) >= 20 && Number(userDetails.neck) <= 80) &&
+    Number((userDetails.waist) >= 40 && Number(userDetails.waist) <= 160) &&
+   Number((userDetails.hip) >= 40 &&Number(userDetails.hip) <= 160)    
     ) {
         const authToken = localStorage.getItem("endurefit-token") ;
+        setLoadingProgress(20);
           const response = await fetch(`${BASE_URL}/api/userDetails/storedetails`, {
             method: "POST",
             headers: {
@@ -69,7 +69,9 @@ const navigate = useNavigate();
                 "userDetails":userDetails
             }),
           });
+          setLoadingProgress(50);
           const json = await response.json();
+          setLoadingProgress(100);
           if (json.success) {
             setUserProfileInfo();
             navigate("/");
@@ -125,7 +127,7 @@ const navigate = useNavigate();
                   </div>
                 </div>
                 <label htmlFor="age" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"}  ${
-                    userDetails.age > 0 && userDetails.age <= 80 ? "hidden" : ""}`}>
+                    Number(userDetails.age) > 0 && Number(userDetails.age) <= 80 ? "hidden" : ""}`}>
                   age must be less than 80
                 </label>
 
@@ -230,7 +232,7 @@ const navigate = useNavigate();
                   </div>
                 </div>
                 <label htmlFor="weight" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"}  ${
-                    userDetails.weight >= 40 && userDetails.weight <= 160 ? "hidden" : ""}`}>
+                    Number(userDetails.weight) >= 40 && Number(userDetails.weight) <= 160 ? "hidden" : ""}`}>
                 weight must be greater than 40 and less than 160 
                 </label>
 
@@ -254,7 +256,7 @@ const navigate = useNavigate();
                   </div>
                 </div>
                 <label htmlFor="height" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"}  ${
-                    userDetails.height >= 130 && userDetails.height <= 230 ? "hidden" : ""}`}>
+                    Number(userDetails.height) >= 130 && Number(userDetails.height) <= 230 ? "hidden" : ""}`}>
                 height must be greater than 130 and less than 230
                 </label>
 
@@ -467,7 +469,7 @@ const navigate = useNavigate();
                   </div>
                 </div>
                 <label htmlFor="neck" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"}  ${
-                    userDetails.neck >= 20 && userDetails.neck <= 80 ? "hidden" : ""}`}>
+                    Number(userDetails.neck) >= 20 && Number(userDetails.neck) <= 80 ? "hidden" : ""}`}>
                 neck must be greater than 20 and less than 80
                 </label>
 
@@ -486,12 +488,12 @@ const navigate = useNavigate();
                       max={160}
                     />
                     <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-semibold leading-tight text-[#1a2b4b]  transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-[#1a2b4b]  before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-[#1a2b4b]  after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-[#1a2b4b]  peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-blue-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-blue-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-blue-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-[#1a2b4b] ">
-                    Waist
+                    Waist in cm
                     </label>
                   </div>
                 </div>
                 <label htmlFor="waist" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"}  ${
-                    userDetails.waist >= 40 && userDetails.waist <= 160 ? "hidden" : ""}`}>
+                    Number(userDetails.waist) >= 40 && Number(userDetails.waist) <= 160 ? "hidden" : ""}`}>
                 waist must be greater than 40 and less than 160
                 </label>
 
@@ -510,12 +512,12 @@ const navigate = useNavigate();
                       max={160}
                     />
                     <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-semibold leading-tight text-[#1a2b4b]  transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-[#1a2b4b]  before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-[#1a2b4b]  after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-[#1a2b4b]  peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-blue-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-blue-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-blue-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-[#1a2b4b] ">
-                    Hip
+                    Hip in cm
                     </label>
                   </div>
                 </div>
                 <label htmlFor="hip" className={`text-xs -mt-6 ${color==="#1a2b4b"?"text-[#1a2b4b]":"text-red-600"}  ${
-                    userDetails.hip >= 40 && userDetails.hip <= 160 ? "hidden" : ""}`}>
+                    Number(userDetails.hip) >= 40 && Number(userDetails.hip) <= 160 ? "hidden" : ""}`}>
                 hip must be greater than 40 and less than 160
                 </label>
               </div>
