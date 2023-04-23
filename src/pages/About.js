@@ -7,7 +7,7 @@ const About = () => {
   return (
     <div className="bg-gradient-to-br from-blue-200 via-stone-100 to-blue-200">
       <Navbar />
-      <div class="flex justify-center ">
+      <div class="flex justify-center mb-12">
         <div class="flex flex-col max-w-7xl justify-center items-center">
           {/* <div class="overflow-hidden w-3/4  shadow-[0px_9px_20px_13px_#90cdf4] rounded-2xl bg-white m-4  flex flex-col md:flex-row justify-center">
             <div class="overflow-hidden ">

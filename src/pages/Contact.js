@@ -4,9 +4,13 @@ import Footer from "../components/Others/Footer";
 import Navbar from "../components/Others/Navbar";
 import AlertContext from "../context/alerts/AlertContext";
 import LoaderContext from "../context/loader/LoaderContext"
+import { useEffect } from "react";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const Contact = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const loaderContext = useContext(LoaderContext);
   const { setLoadingProgress } = loaderContext;
   const [contact, setContact] = useState({

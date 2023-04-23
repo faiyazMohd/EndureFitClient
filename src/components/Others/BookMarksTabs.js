@@ -57,10 +57,16 @@ export default function BookMarksTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
+        <div className='flex flex-col justify-center items-center' >
+
         <ExerciseBookMarks/>
+        </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
+        <div className="flex flex-col justify-center items-center">
+
         <DietBookMarks/>
+        </div>
       </TabPanel>
     </Box>
   );

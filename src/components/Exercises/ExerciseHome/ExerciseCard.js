@@ -61,7 +61,7 @@ const ExerciseCard = ({ exercise }) => {
     >
       <div className="shadow-card flex flex-col shadow-[0px_9px_20px_13px_#90cdf4] rounded-xl bg-white bg-clip-border justify-center items-center">
         <div className="hover:-m-[0.5rem] hover:shadow-[0px_12px_22px_2px_#3182ce] rounded-lg">
-          <Link to={`/exercisedetails/${exercise.id}`} blur-shadow-image="true">
+          <Link to={`/exercisedetails/${exercise.id}`} blur-shadow-image="true"  onClick={()=>window.scrollTo({ top: 0, behavior: "smooth" })}>
             <img
               className="w-auto rounded-lg "
               src={exercise.gifUrl}
@@ -70,7 +70,7 @@ const ExerciseCard = ({ exercise }) => {
           </Link>
         </div>
         <div className=" capitalize mt-4 ">
-          <Link to={`/exercisedetails/${exercise.id}`} className="">
+          <Link to={`/exercisedetails/${exercise.id}`} className=""  onClick={()=>window.scrollTo({ top: 0, behavior: "smooth" })}>
             <p className="text-2xl text-center font-semibold">
               {exercise.name}
             </p>
